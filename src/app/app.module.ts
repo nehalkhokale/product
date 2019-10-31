@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule ,CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './shared/modules/app-material.module';
 import { AppComponent } from './app.component';
@@ -11,6 +10,8 @@ import { SaveCategoryComponent } from './views/masters/category/save-category/sa
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ListUserComponent } from './views/masters/user/list-user/list-user.component';
 import { SaveUserComponent } from './views/masters/user/save-user/save-user.component';
+import { ListRoleComponent } from './list-role/list-role.component';
+import { SaveRoleComponent } from './save-role/save-role.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,12 @@ import { SaveUserComponent } from './views/masters/user/save-user/save-user.comp
     ListCategoryComponent,
     SaveCategoryComponent,
     ListUserComponent,
-    SaveUserComponent
+    SaveUserComponent,
+    ListRoleComponent,
+    SaveRoleComponent
+  ],
+  schemas:[
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   imports: [
     BrowserModule,

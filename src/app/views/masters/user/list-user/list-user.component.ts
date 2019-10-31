@@ -7,11 +7,15 @@ import { StorageService } from '../../../../shared/services/storage.service';
 
 export interface User {
   _id: number;
-  firstName: string;
-  lastName: string;
-  password: string;
-  role: any;
+  name: any;
+  gender: string;
   email: string;
+  role: string;
+  createdAt:Date;
+  updattedAt:Date;
+  updatedBy:any;
+  createdBy:any;
+  remarks:any;
   mobile: string;
   isActive: boolean;
 }
@@ -28,15 +32,19 @@ export class ListUserComponent implements OnInit {
   displayedColumns: string[] = ['userName', 'role', 'email', 'mobile', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(
-    private httpService: HttpService,
-    private storageService: StorageService,
-    private router: Router
-  ) { }
+  
+  constructor(private httpService: HttpService , private router: Router) { }
 
   ngOnInit() {
-    let data = this.storageService.getUserList();
-    this.dataSource = new MatTableDataSource(data);
+   this.httpService.get('userlist').subscribe((res:any)=>{
+     
+     
+    res.data.forEach((element:any) => {
+      element.role = element.role.name
+     });
+     console.log('res',res.data);
+     this.dataSource = new MatTableDataSource(res.data)
+   })
   }
 
   applyFilter(filterValue: string) {
@@ -44,14 +52,14 @@ export class ListUserComponent implements OnInit {
   }
 
   addUser(){
-    this.router.navigate(['save-user', {profile_type: 'create'}]);
+    this.router.navigate(['save-user',{action:'add'}])
   }
 
-  editUser(obj: User){
-    this.router.navigate(['/save-user', {_id: obj._id, profile_type: 'edit'}]);
+  editUser(userId: Number){
+    this.router.navigate(['save-user',{action:'edit', Id:userId}])    
   }
 
   deleteUser(){
-    alert('Delete user');
+    alert('Delete category');
   }
 }

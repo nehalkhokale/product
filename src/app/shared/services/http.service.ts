@@ -6,7 +6,7 @@ import { HttpClient, HttpEvent } from '@angular/common/http';
 })
 export class HttpService {
 
-  baseUrl = 'http://localhost:59226/WCFService.svc/'; // Localhost
+  baseUrl: String = 'http://localhost:1000/balancesheet/'; // Localhost
 
   constructor(private http: HttpClient) { }
 

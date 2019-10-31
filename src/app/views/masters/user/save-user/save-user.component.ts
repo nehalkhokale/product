@@ -7,16 +7,21 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Activ
 import { HttpService } from '../../../../shared/services/http.service';
 import { StorageService } from '../../../../shared/services/storage.service';
 
-export class User {
+export interface User {
   _id: number;
-  firstName: string;
-  lastName: string;
-  password: string;
-  role: any;
+  name: any;
+  gender: string;
   email: string;
+  role: string;
+  createdAt:Date;
+  updattedAt:Date;
+  updatedBy:any;
+  createdBy:any;
+  remarks:any;
   mobile: string;
   isActive: boolean;
 }
+const ELEMENT_DATA: User[] = [];
 
 @Component({
   selector: 'app-save-user',
@@ -24,61 +29,84 @@ export class User {
   styleUrls: ['./save-user.component.scss']
 })
 export class SaveUserComponent implements OnInit {
-
+  dataSource = ELEMENT_DATA;
+  userObj: any = {
+  name: {},
+  gender: ' ',
+  email: '',
+  role: '',  
+  remarks:{},
+  mobile: '',
+  };
+  userId: Number;
+  actionValue: String;
   userForm: FormGroup;
-  userId: number;
-
   constructor(
-    private http: HttpClient,
-    private formBuilder: FormBuilder,
     private httpService: HttpService,
-    private storageService: StorageService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
+    private router: ActivatedRoute,
     private location: Location
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.resetUserObject();
-    this.bindUserData();
-    this.route.params.subscribe(params => {
-       this.userId = +params['_id']; // (+) converts string 'id' to a number
-
-       this.getUserById();
+    this.initializeForm();
+    this.router.params.subscribe(params => {
+      this.userId = params['Id'];
+      this.actionValue = params['action'];
+      if (this.actionValue === "edit") {
+        this.getUser();
+      }
     });
   }
+  initializeForm() {
+    this.userForm = new FormGroup({
+      firstName: new FormControl('', Validators.required),      
+      lastName: new FormControl('', Validators.required),
+      gender: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      mobile: new FormControl('', Validators.required),
+      role: new FormControl('', Validators.required),
 
-  objUser: any;
-  resetUserObject(){
-    try{
-      this.objUser = new User();
-      console.log('this.objUser', this.objUser);
-    }catch(e){
-
-    }
+    });
   }
-
-  bindUserData(){
-    try{
-      this.userForm = this.formBuilder.group({
-        _id: [this.objUser._id, Validators.required],
-        firstName: [this.objUser.firstName],
-        lastName: [this.objUser.lastName],
-        password: [this.objUser.password],
-        email: [this.objUser.email],
-        mobile: [this.objUser.mobile],
-        role: [this.objUser.role],
-        isActive: [this.objUser.active, Validators.required]
+ 
+  onSave() {
+    let data = this.userForm.value;
+    data.name={
+      firstName:data.firstName,
+      lastName:data.lastName,
+    }
+    if (this.actionValue === 'add') {
+      this.httpService.post("createuser", data).subscribe((res: any) => {
+        if (res.success) {
+          this.location.back();
+        }
       });
-    }catch(e){
-
+    } else {
+      this.httpService
+        .put(`updateuser/${this.userId}`, data)
+        .subscribe((res: any) => {
+          if (res.success) {
+            this.location.back();
+          }
+        });
     }
   }
-
-  getUserById(){
-    this.objUser = this.storageService.getUserById(this.userId);
-    this.bindUserData();
+  getUser(){
+    console.log('userId',this.userId);
+    
+    this.httpService.get(`userbyid/${this.userId}`).subscribe((res:any)=>{
+      this.userObj = res.data
+      console.log('res.data',res.data);
+      
+      this.userForm = new FormGroup({
+        firstName: new FormControl(this.userObj.name.firstName, Validators.required),      
+      lastName: new FormControl(this.userObj.name.lastName, Validators.required),
+      gender: new FormControl(this.userObj.gender),
+      email: new FormControl(this.userObj.email, Validators.required),
+      mobile: new FormControl(this.userObj.mobile, Validators.required),
+      role: new FormControl(this.userObj.role.name, Validators.required),
+      });
+    })
   }
 
 }

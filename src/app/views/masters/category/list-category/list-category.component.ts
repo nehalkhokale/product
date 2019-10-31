@@ -1,10 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { HttpService } from '../../../../shared/services/http.service';
+import { Router } from '@angular/router';
 
 export interface Category {
-  categoryName: string;
+  _id:Number;
+  category: string;
   subCategory: string;
+  isActive:boolean;
+  createdAt:Date;
+  updattedAt:Date;
+  updatedBy:any;
+  createdBy:any;
+  remarks:any;
 }
 
 const ELEMENT_DATA: Category[] = [];
@@ -16,18 +24,25 @@ const ELEMENT_DATA: Category[] = [];
 })
 export class ListCategoryComponent implements OnInit {
 
-  displayedColumns: string[] = ['categoryName', 'subCategory', 'action'];
+  displayedColumns: string[] = ['Category', 'Subcategory', 'Action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService , private router: Router) { }
 
   ngOnInit() {
-    let data = [{
-      categoryName: 'Clothes',
-      subCategory: 'Jeans, Kurta'
-    }];
-
-    this.dataSource = new MatTableDataSource(data);
+   this.httpService.get('categorylist').subscribe((res:any)=>{
+     
+     
+    res.data.forEach((element:any) => {
+       let subCategoryArray : string[]= [];
+       element.subCategory.forEach((subCategoryName,index)=>{
+         subCategoryArray.push(subCategoryName.name)
+       })
+       element.subCategory = subCategoryArray
+     });
+     console.log('res',res.data);
+     this.dataSource = new MatTableDataSource(res.data)
+   })
   }
 
   applyFilter(filterValue: string) {
@@ -35,11 +50,11 @@ export class ListCategoryComponent implements OnInit {
   }
 
   addCategory(){
-    alert('Add category');
+    this.router.navigate(['save-category',{action:'add'}])
   }
 
-  editCategory(){
-    alert('Edit category');
+  editCategory(categoryId: Number){
+    this.router.navigate(['save-category',{action:'edit', Id:categoryId}])    
   }
 
   deleteCategory(){
