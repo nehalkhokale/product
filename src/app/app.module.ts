@@ -10,8 +10,8 @@ import { SaveCategoryComponent } from './views/masters/category/save-category/sa
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ListUserComponent } from './views/masters/user/list-user/list-user.component';
 import { SaveUserComponent } from './views/masters/user/save-user/save-user.component';
-import { ListRoleComponent } from './list-role/list-role.component';
-import { SaveRoleComponent } from './save-role/save-role.component';
+import { ListRoleComponent } from './views/masters/Role/list-role/list-role.component';
+import { SaveRoleComponent } from './views/masters/Role/save-role/save-role.component';
 
 @NgModule({
   declarations: [

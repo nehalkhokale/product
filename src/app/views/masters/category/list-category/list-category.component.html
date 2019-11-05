@@ -7,8 +7,10 @@
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
     </mat-form-field>
   </div>
-  <div class="col-sm-2 text-right mt-2">
-    <button mat-raised-button color="primary" (click)="addCategory()">Add Category</button>
+  <div class="col-sm-2 text-right mt-2"><button matTooltip="Add category "  mat-raised-button color="primary" (click)="addCategory()" mat-mini-fab class="mat-mini-fab-white" type="button">
+    <mat-icon class="pointer;">add</mat-icon>
+    </button>
+    <!-- <button mat-raised-button color="primary" (click)="addCategory()">Add Category</button> -->
   </div>
 </div>
 
@@ -34,8 +36,8 @@
         <ng-container matColumnDef="Action">
           <th mat-header-cell *matHeaderCellDef> Action </th>
           <td mat-cell *matCellDef="let element">
-            <mat-icon (click)="editCategory(element._id)">edit</mat-icon>
-            <mat-icon class="mat-icon-delete" (click)="deleteCategory(element, i)">clear</mat-icon>
+            <mat-icon  matTooltip="Edit category"  (click)="editCategory(element._id)">edit</mat-icon>
+            <mat-icon  matTooltip="Delete category" class="mat-icon-delete" (click)="deleteCategory(element, i)">clear</mat-icon>            
           </td>
         </ng-container>
 

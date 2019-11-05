@@ -1,5 +1,10 @@
 <div class = "container text-center">
 <mat-card class="card">
+    <div class="offset-sm-2 col-sm-2 text-right">
+        <button matTooltip="Go to category list" routerLink="/list-category" mat-mini-fab class="mat-mini-fab-white" type="button">
+            <mat-icon class="pointer;">arrow_back</mat-icon>
+        </button>
+    </div>
     <p>
         status :{{categoryDetail.valid}}
         lenght:{{categoryObj.subCategory.length }}

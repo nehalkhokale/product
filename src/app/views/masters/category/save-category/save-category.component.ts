@@ -4,6 +4,8 @@ import { HttpService } from "../../../../shared/services/http.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { Location } from "@angular/common";
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 export interface Category {
   _id: Number;
   category: string;
@@ -35,7 +37,8 @@ export class SaveCategoryComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     private router: ActivatedRoute,
-    private location: Location
+    private location: Location ,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -51,7 +54,7 @@ export class SaveCategoryComponent implements OnInit {
   initializeForm() {
     this.categoryDetail = new FormGroup({
       category: new FormControl('', Validators.required),
-      subCategory: new FormControl('')
+      
     });
   }
   subCategoryValue: string = "";
@@ -65,7 +68,7 @@ export class SaveCategoryComponent implements OnInit {
   onSave() {
     let data = this.categoryDetail.value;
     data.subCategory = this.categoryObj.subCategory;
-    console.log('data',data);
+    console.log('data', data);
     
     if (this.actionValue === 'add') {
       this.httpService.post("createcategory", data).subscribe((res: any) => {
@@ -73,6 +76,10 @@ export class SaveCategoryComponent implements OnInit {
           this.location.back();
         }
       });
+      ((err:any )=>{
+        this.snackBar.open('user');
+  
+       })
     } else {
       this.httpService
         .put(`updatecategory/${this.categoryId}`, data)
@@ -83,10 +90,12 @@ export class SaveCategoryComponent implements OnInit {
         });
     }
   }
+
   getCategory(){
     console.log('categoryId',this.categoryId);
     
     this.httpService.get(`categorybyid/${this.categoryId}`).subscribe((res:any)=>{
+      console.log('909090 res.data',res.data)
       this.categoryObj = res.data
       let subCategoryArray : string[]= [];
       res.data.subCategory.forEach((subCategoryName,index)=>{
@@ -95,7 +104,6 @@ export class SaveCategoryComponent implements OnInit {
       this.categoryObj.subCategoryName = subCategoryArray
       this.categoryDetail = new FormGroup({
         category: new FormControl(this.categoryObj.category, Validators.required),
-        subCategory: new FormControl(this.categoryObj.subCategory, Validators.required)
       });
     })
   }

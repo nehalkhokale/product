@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export interface Category {
   _id:Number;
@@ -27,13 +28,14 @@ export class ListCategoryComponent implements OnInit {
   displayedColumns: string[] = ['Category', 'Subcategory', 'Action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private httpService: HttpService , private router: Router) { }
+  constructor(private httpService: HttpService , private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
    this.httpService.get('categorylist').subscribe((res:any)=>{
      
      
-    res.data.forEach((element:any) => {
+     if (res.success){
+       res.data.forEach((element:any) => {
        let subCategoryArray : string[]= [];
        element.subCategory.forEach((subCategoryName,index)=>{
          subCategoryArray.push(subCategoryName.name)
@@ -42,6 +44,12 @@ export class ListCategoryComponent implements OnInit {
      });
      console.log('res',res.data);
      this.dataSource = new MatTableDataSource(res.data)
+    }
+     ((err:any )=>{
+      this.snackBar.open('user');
+
+     })
+     
    })
   }
 

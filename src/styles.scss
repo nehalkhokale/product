@@ -2,9 +2,13 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+
 html, body {
   height: 100%;
+  // font-family: 'Exo', sans-serif;
 }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Material element CSS */
@@ -35,7 +39,7 @@ table {
   max-height: 70vh;
   overflow: auto;
 }
+
 /* Table CSS */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
