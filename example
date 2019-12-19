@@ -1,0 +1,54 @@
+
+--- html extraction---
+dom = new jsdom(ruleDoc.data.message)
+        Window = dom.window
+        let doc = Window.document.implementation.createHTMLDocument('New Document')
+        let htmlObject = doc.createElement('div')
+        htmlObject.innerHTML = ruleDoc.data.message
+        let links = htmlObject.getElementsByTagName('a')
+        // console.log('----log replace',links)    
+        // console.log('----htmlObject.innerHTML',htmlObject.innerHTML);  
+        
+        let hrefs = []
+        let operator = []
+        for (let i = 0; i < links.length; i++) {
+            hrefs.push(links[i].type)
+            if(links[i].type ==='operator'){
+                // console.log('--in operator',links[i].getAttribute("value"));                
+                operator.push(links[i].getAttribute("value")) 
+            }
+
+
+
+----- html content -----
+
+dom = new jsdom(ruleDoc.data.message)
+        Window = dom.window
+        let doc = Window.document.implementation.createHTMLDocument('New Document')
+        let htmlObject = doc.createElement('div')
+        htmlObject.innerHTML = ruleDoc.data.message
+        let links = htmlObject.getElementsByTagName('a')
+        // console.log('----log replace',links)    
+        // console.log('----htmlObject.innerHTML',htmlObject.innerHTML);  
+        
+        let hrefs = []
+        let operator = []
+        for (let i = 0; i < links.length; i++) {
+            hrefs.push(links[i].type)
+            if(links[i].type ==='operator'){
+                // console.log('--in operator',links[i].getAttribute("value"));                
+                operator.push(links[i].getAttribute("value")) 
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
