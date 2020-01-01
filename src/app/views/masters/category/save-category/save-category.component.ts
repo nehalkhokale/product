@@ -4,19 +4,9 @@ import { HttpService } from "../../../../shared/services/http.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { Location } from "@angular/common";
-import {MatSnackBar} from '@angular/material/snack-bar';
-
-export interface Category {
-  _id: Number;
-  category: string;
-  subCategory: string;
-  isActive: boolean;
-  createdAt: Date;
-  updattedAt: Date;
-  updatedBy: any;
-  createdBy: any;
-  remarks: any;
-}
+import {SnackbarService} from '../../../../shared/services/snackbar.service'
+import{Category} from '../../../../shared/models/category.model';
+import { MasterService } from '../../../../shared/services/master.service'
 
 const ELEMENT_DATA: Category[] = [];
 @Component({
@@ -34,11 +24,13 @@ export class SaveCategoryComponent implements OnInit {
   actionValue: String;
   subCategory: any;
   categoryDetail: FormGroup;
+  url: any;
   constructor(
     private httpService: HttpService,
     private router: ActivatedRoute,
     private location: Location ,
-    private snackBar: MatSnackBar
+    private masterService: MasterService,
+    private snackBar: SnackbarService
   ) {}
 
   ngOnInit() {
@@ -51,6 +43,7 @@ export class SaveCategoryComponent implements OnInit {
       }
     });
   }
+  
   initializeForm() {
     this.categoryDetail = new FormGroup({
       category: new FormControl('', Validators.required),
@@ -69,31 +62,55 @@ export class SaveCategoryComponent implements OnInit {
     let data = this.categoryDetail.value;
     data.subCategory = this.categoryObj.subCategory;
     console.log('data', data);
+    this.url =(this.actionValue === 'add')?"createcategory" :`updatecategory/${this.categoryId}`
+    this.masterService.onAddButton(this.actionValue,data, this.url)
     
-    if (this.actionValue === 'add') {
-      this.httpService.post("createcategory", data).subscribe((res: any) => {
-        if (res.success) {
-          this.location.back();
-        }
-      });
-      ((err:any )=>{
-        this.snackBar.open('user');
-  
-       })
-    } else {
-      this.httpService
-        .put(`updatecategory/${this.categoryId}`, data)
-        .subscribe((res: any) => {
-          if (res.success) {
-            this.location.back();
-          }
-        });
-    }
+    // if (this.actionValue === 'add') {
+    //   try{
+      // this.httpService.post("createcategory", data).subscribe((res: any) => {
+      //   if (res.success) {
+      //     this.snackBar.openSnackBar(res.message, 'Close', 'green-snackbar')
+      //     this.location.back();
+      //   }
+      //   else{
+      //     this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
+      //   }
+      // },
+      // (err:any)=>{
+      //   this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+      // }
+      
+    //   );}
+    //   catch(e){
+    //     this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
+    //   }
+    // } else {
+    //   try{
+    //   this.httpService
+    //     .put(`updatecategory/${this.categoryId}`, data)
+    //     .subscribe((res: any) => {
+    //       if (res.success) {
+    //         this.snackBar.openSnackBar(res.message, 'Close', 'green-snackbar')
+    //         this.location.back();
+    //       }
+    //       else{
+    //         this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
+    //       }
+    //     },
+    //     (err:any)=>{
+    //       this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+    //     }
+        
+    //     );}
+    //     catch(e){
+    //       this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
+    //     }
+    // }
   }
 
   getCategory(){
     console.log('categoryId',this.categoryId);
-    
+    try{
     this.httpService.get(`categorybyid/${this.categoryId}`).subscribe((res:any)=>{
       console.log('909090 res.data',res.data)
       this.categoryObj = res.data
@@ -105,7 +122,14 @@ export class SaveCategoryComponent implements OnInit {
       this.categoryDetail = new FormGroup({
         category: new FormControl(this.categoryObj.category, Validators.required),
       });
-    })
+    },
+    (err:any)=>{
+      this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+    } 
+    )}
+    catch(e){
+      this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
+    }
   }
 
 }

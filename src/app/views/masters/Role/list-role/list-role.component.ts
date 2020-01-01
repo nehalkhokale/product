@@ -1,18 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
+import {SnackbarService} from '../../../../shared/services/snackbar.service'
 import { Router } from '@angular/router';
 import { HttpService } from '../../../../shared/services/http.service';
-export interface Role {
-  _id: number;
-  name: String;
-  description: string;
-  createdAt:Date;
-  updattedAt:Date;
-  updatedBy:any;
-  createdBy:any;
-  remarks:any;
-  isActive: boolean;
-}
+import {DialogserviceComponent} from '../../../../shared/components/dialogservice/dialogservice.component';
+import{MatDialog} from '@angular/material/dialog';
+import{Role} from '../../../../shared/models/role.model'
+
 const ELEMENT_DATA: Role[] = [];
 @Component({
   selector: 'app-list-role',
@@ -20,18 +14,26 @@ const ELEMENT_DATA: Role[] = [];
   styleUrls: ['./list-role.component.scss']
 })
 export class ListRoleComponent implements OnInit {
-
+  dialogData: any
   
   displayedColumns: string[] = ['Sr.No', 'role', 'description', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   
-  constructor(private httpService: HttpService , private router: Router) { }
+  constructor(private httpService: HttpService , private router: Router, private snackBar:SnackbarService , private MatDialog :MatDialog) { }
 
   ngOnInit() {
+    try{
    this.httpService.get('rolelist').subscribe((res:any)=>{
      this.dataSource = new MatTableDataSource(res.data)
-   })
+   },
+   (err:any)=>{
+     this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+   } 
+   )}
+   catch(e){
+     this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
+   }
   }
 
   applyFilter(filterValue: string) {
@@ -39,14 +41,39 @@ export class ListRoleComponent implements OnInit {
   }
 
   addRole(){
-    this.router.navigate(['save-role',{action:'add'}])
+    this.router.navigate(['role/save-role',{action:'add'}])
   }
 
   editRole(userId: Number){
-    this.router.navigate(['save-role',{action:'edit', Id:userId}])    
+    this.router.navigate(['role/save-role',{action:'edit', Id:userId}])    
   }
 
-  deleteRole(){
-    alert('Delete category');
+  deleteRole(userId:Number){
+    this.httpService.get(`rolebyid/${userId}`).subscribe((res:any)=>{
+      // console.log('user res',res);
+      
+      this.dialogData = {
+        dialogHeader : userId + "role",
+        dialogMessage : "",
+        dialogAcceptBtn : "Yes",
+        dialogRejecteBtn : "No",
+        dailogTerm : res.data.name + ' '+ 'role',
+        dailogRoute:'list-role'
+     }
+    
+      let dailogBox = this.MatDialog.open(DialogserviceComponent, {
+        data: this.dialogData
+      });
+      dailogBox.afterClosed().subscribe(value => {
+        let remarks = value.remarks
+        if(value.accept){
+          this.httpService.put(`deleterole/${userId}`,remarks).subscribe((res:any)=>{
+            // console.log('after deleting res',res);
+            this.ngOnInit()
+          })
+        }
+        
+      })
+    })
   }
 }

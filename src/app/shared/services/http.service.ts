@@ -29,4 +29,27 @@ export class HttpService {
   getBaseURL(){
     return this.baseUrl;
   }
+  validation_messages = {
+    'email': [
+      { type: 'required', message: 'Email is required' },
+      { type: 'pattern', message: 'Enter a valid email' }
+    ],
+    'firstName': [
+      { type: 'required', message: 'First name is required' },     
+    ],
+    'lastName': [
+      { type: 'required', message: 'Last name is required' },     
+    ],
+    'gender': [
+      { type: 'required', message: 'Gender is required' },     
+    ],
+    'mobile': [
+      { type: 'required', message: 'Mobile is required' },     
+    ],
+    'role': [
+      { type: 'required', message: 'Role is required' },     
+    ]
+
+  }
+ 
 }

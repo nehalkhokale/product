@@ -1,92 +1,113 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
+import { SnackbarService } from '../../../../shared/services/snackbar.service'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, ActivatedRoute } from '@angular/router';
-
+import {  Router, ActivatedRoute } from '@angular/router';
+import { Role } from '../../../../shared/models/role.model';
 import { HttpService } from '../../../../shared/services/http.service';
+import { MatTable } from '@angular/material';
+import { RoleModule } from '../role.module';
+import { MasterService } from '../../../../shared/services/master.service'
 
-export interface Role {
-  _id: number;
-  name: string;
-  description: string;
-  createdAt:Date;
-  updattedAt:Date;
-  updatedBy:any;
-  createdBy:any;
-  remarks:any;
-  isActive: boolean;
-}
-const ELEMENT_DATA: Role[] = [];
 @Component({
   selector: 'app-save-role',
   templateUrl: './save-role.component.html',
   styleUrls: ['./save-role.component.scss']
 })
 export class SaveRoleComponent implements OnInit {
-  dataSource = ELEMENT_DATA;
+
   roleObj: any = {
-  name: ' ',
-  description: '', 
-  remarks:{},
+    name: ' ',
+    description: '',
+    remarks: {},
   };
   roleId: Number;
   actionValue: String;
   roleForm: FormGroup;
+  url:any;
   constructor(
     private httpService: HttpService,
     private router: ActivatedRoute,
-    private location: Location
-  ) {}
+    private location: Location,
+    private masterService: MasterService,
+    private snackBar: SnackbarService
+  ) { }
 
   ngOnInit() {
-    this.initializeForm();
+    this.resetRoleObj();
+    this.buildForm();
     this.router.params.subscribe(params => {
       this.roleId = params['Id'];
       this.actionValue = params['action'];
       if (this.actionValue === "edit") {
-        this.getUser();
+        this.getRole();
       }
     });
   }
-  initializeForm() {
+
+  resetRoleObj() {
+    this.roleObj = new Role();
+  }
+
+  buildForm() {
     this.roleForm = new FormGroup({
-      name: new FormControl('', Validators.required),      
-      description: new FormControl(''),
+      name: new FormControl(this.roleObj.name, Validators.required),
+      description: new FormControl(this.roleObj.description),
     });
   }
- 
-  onSave() {
-    let data = this.roleForm.value;
-    
-    if (this.actionValue === 'add') {
-      this.httpService.post("createrole", data).subscribe((res: any) => {
-        if (res.success) {
-          this.location.back();
+
+  getRole() {
+    try {
+      console.log('roleId', this.roleId);
+      this.httpService.get(`rolebyid/${this.roleId}`).subscribe((res: any) => {
+        this.roleObj = res.data;
+        this.buildForm();
+      },
+        (err: any) => {
+          this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
         }
-      });
-    } else {
-      this.httpService
-        .put(`updaterole/${this.roleId}`, data)
-        .subscribe((res: any) => {
-          if (res.success) {
-            this.location.back();
-          }
-        });
+      )
+    }catch(e){
+      this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
     }
   }
-  getUser(){
-    console.log('roleId',this.roleId);
-    
-    this.httpService.get(`rolebyid/${this.roleId}`).subscribe((res:any)=>{
-      this.roleObj = res.data
-      console.log('res.data',res.data);
-      
-      this.roleForm = new FormGroup({
-        name: new FormControl(this.roleObj.name, Validators.required),      
-        description: new FormControl(this.roleObj.description),
-      });
-    })
+
+  onSave() {
+    try {
+      let data = this.roleForm.value;
+      this.url =(this.actionValue === 'add')?"createrole" :`updaterole/${this.roleId}`
+      this.masterService.onAddButton(this.actionValue,data,this.url)
+      // if (this.actionValue === 'add') {
+
+      //   this.httpService.post("createrole", data).subscribe((res: any) => {
+      //     if (res.success) {
+      //       this.snackBar.openSnackBar(res.message, 'Close', 'green-snackbar')
+      //       this.location.back();
+      //     } else {
+      //       this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
+      //     }
+      //   }, (err: any) => {
+      //     this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+      //   });
+      // } else {
+
+      //   this.httpService.put(`updaterole/${this.roleId}`, data).subscribe((res: any) => {
+      //     console.log('res', res);
+
+      //     if (res.success) {
+      //       this.snackBar.openSnackBar(res.message, 'Close', 'green-snackbar')
+      //       this.location.back();
+      //     }
+      //     else {
+      //       this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
+      //     }
+      //   }, (err: any) => {
+      //     this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+      //   });
+      // }
+    } catch (e) {
+      this.snackBar.openSnackBar(e.message, 'Close', 'red-snackbar');
+    }
   }
 
 }

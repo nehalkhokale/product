@@ -1,47 +1,57 @@
-<div class = "container text-center">
-<mat-card class="card">
-    <div class="offset-sm-2 col-sm-2 text-right">
-        <button matTooltip="Go to category list" routerLink="/list-category" mat-mini-fab class="mat-mini-fab-white" type="button">
+<div class="row mt-4">
+    <div class="offset-sm-2 col-sm-4  mt-2">
+        <h5>Save Category</h5>
+        
+    </div>
+     <div class="offset-sm-2 col-sm-4 mt-2">
+        <button matTooltip="Go to category list" routerLink="/category/list-category" mat-mini-fab class="mat-mini-fab-white" type="button">
             <mat-icon class="pointer;">arrow_back</mat-icon>
         </button>
     </div>
-    <p>
-        status :{{categoryDetail.valid}}
-        lenght:{{categoryObj.subCategory.length }}
-    </p>
-    <form [formGroup]="categoryDetail" class="example-form">
-        <div class="row">
-        <div class = "col-md-12 ">
-            <mat-form-field class="example-full-width" >
-                <input matInput placeholder="Category" formControlName="category" required>
-            </mat-form-field>
-        </div>
-        </div>
-        <div class="row">
-                <div class = "col-md-12 ">
-                    <mat-form-field >
+    
+</div>
+
+<div class="row mt-4">
+    <div class="offset-sm-2 col-sm-8">
+        <mat-card>
+            <form [formGroup]="categoryDetail"  >
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field >
+                            <input matInput placeholder="Category" formControlName="category" required>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <mat-form-field>
                             <input matInput placeholder="Subcategory" [(ngModel)]="subCategoryValue"
-                        [ngModelOptions]='{standalone:true}'
-                        >
-                        <button mat-button matSuffix mat-icon-button aria-label="Clear"
-                        *ngIf = 'subCategoryValue'(click) ="addSubCategory()">
-                    <mat-icon > add </mat-icon>
-                    </button>
-
-                    </mat-form-field>
-                    <mat-chip-list class = "mat-chip-list-stacked" aria-label="color selection">
-
-                        <mat-chip *ngFor ="let ele of categoryObj?.subCategory; let i = index">
-                            {{ele.name}}<mat-icon matChipRemove (click) ="remove(i)"> cancel </mat-icon> 
-                        </mat-chip>
-                    </mat-chip-list>
+                                [ngModelOptions]='{standalone:true}'>
+                            <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf='subCategoryValue'
+                                (click)="addSubCategory()">
+                                <mat-icon> add </mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <mat-chip-list class="mat-chip-list-stacked" aria-label="color selection">
+                            <mat-chip *ngFor="let ele of categoryObj?.subCategory; let i = index">
+                                {{ele.name}}<mat-icon matChipRemove (click)="remove(i)"> cancel </mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
                 </div>
-                </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" mat-raised-button class="btn btn-block col-sm-2 mr-3"
+                                (click)="ngOnInit()">RESET</button>
+                            <button type="submit"(click)=" onSave()" mat-raised-button class="btn btn-block col-sm-2" color="primary"
+                                [disabled]="!categoryDetail.valid || categoryObj.subCategory.length === 0">
+                                SAVE
+                                <i class="fas fa-spinner ml-2" *ngIf="showLoading"></i>
+                            </button>
+                        </div>
+                    </div>
 
-    </form>
-    <div class="bottomrigth">
-            <button class = "mr-2" routerLink="" mat-raised-button >Back</button>
-    <button (click)="onSave()" [disabled]="!categoryDetail.valid || categoryObj.subCategory.length === 0"  mat-raised-button color="primary">Save</button>
+            </form>
+        </mat-card>
     </div>
-</mat-card>
 </div>

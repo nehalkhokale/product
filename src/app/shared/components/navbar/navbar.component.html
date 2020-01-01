@@ -1,0 +1,40 @@
+
+<mat-toolbar class= "navbarheader" *ngIf="isLoggedIn$ | async as isLoggedIn">
+    <mat-toolbar-row>
+        <button mat-icon-button (click)="sidenav.toggle()" style="font-size:30px;cursor:pointer">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span >Expense Tracker</span>
+        <button class=" offset-sm-6 col-sm-3 expense" color="warm" (click)=" getCategory()" mat-raised-button> Add Expense</button>
+        <button class=" offset-sm-8 col-sm-3 expense" color="warm" (click)="logout()"mat-raised-button> Logout</button>
+       
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container fxFlexFill>
+    <mat-sidenav #sidenav>
+        <mat-nav-list (click)="sidenav.toggle()" style="font-size:30px;cursor:pointer">
+           
+            <mat-toolbar-row>
+                <a routerLink="category" mat-button>Category </a>
+            </mat-toolbar-row>
+            <mat-toolbar-row>
+                <a routerLink="user" mat-button>User</a>
+            </mat-toolbar-row>
+            <mat-toolbar-row>
+                <a routerLink="role" mat-button>Role</a>
+            </mat-toolbar-row>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="container">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+<!-- <div *ngIf="isLoggedIn$ | async as isLoggedIn">
+    <div>
+        welcome
+    </div>    
+</div>
+<router-outlet></router-outlet> -->

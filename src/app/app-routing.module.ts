@@ -1,19 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './views/login/loginpage/login.component';
+import { ResetPasswordComponent } from './views/login/reset-password/reset-password.component';
+import { 
+  AuthGuard 
+} from './shared/services/auth.guard';
+import { SaveExpenseComponent } from './views/Expenses/save-expense/save-expense.component';
+// import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { AddSubcategoryComponent } from './views/Expenses/add-subcategory/add-subcategory.component';
+// import { DisablecontroldirectiveDirective } from './shared/services/disablecontroldirective.directive';
 
-import { ListCategoryComponent } from './views/masters/category/list-category/list-category.component';
-import { SaveCategoryComponent } from './views/masters/category/save-category/save-category.component';
-import { ListUserComponent } from './views/masters/user/list-user/list-user.component';
-import { SaveUserComponent } from './views/masters/user/save-user/save-user.component';
-import {ListRoleComponent} from './views/masters/Role/list-role/list-role.component';
-import { SaveRoleComponent } from './views/masters/Role/save-role/save-role.component';
 const routes: Routes = [
-  { path: 'list-category', component: ListCategoryComponent },
-  { path: 'save-category', component: SaveCategoryComponent },
-  { path: 'list-user', component: ListUserComponent },
-  { path: 'save-user', component: SaveUserComponent },
-  { path: 'list-role', component: ListRoleComponent },
-  { path: 'save-role', component: SaveRoleComponent }
+  // {path: 'disable', component: DisablecontroldirectiveDirective },
+  { path: '', component: LoginComponent},
+  // {path: 'expense', component: SaveExpenseComponent, canActivate:[AuthGuard]},
+  {path: 'expense/addsubcategory', component: AddSubcategoryComponent, canActivate:[AuthGuard] },
+  { path: 'resetpassword', component: ResetPasswordComponent ,canActivate: [AuthGuard] },
+  { path:'role', loadChildren: './views/masters/Role/role.module#RoleModule',canActivate: [AuthGuard]  },
+  { path:'category', loadChildren: './views/masters/category/category.module#CategoryModule' ,canActivate: [AuthGuard] },
+  { path:'user', loadChildren: './views/masters/user/user.module#UserModule' ,canActivate: [AuthGuard] },
+  // {path:'**',component:LoginComponent}
+
 ];
 
 @NgModule({

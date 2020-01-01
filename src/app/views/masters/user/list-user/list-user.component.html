@@ -25,7 +25,10 @@
 
         <ng-container matColumnDef="userName">
           <th mat-header-cell *matHeaderCellDef> User Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name.firstName + (' ')+element.name.lastName}} </td>
+          <td mat-cell *matCellDef="let element">
+            <!-- {{element}} -->
+            {{element.name.firstName + ' ' + element.name.lastName}}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="role">
@@ -37,7 +40,10 @@
           <th mat-header-cell *matHeaderCellDef> Email </th>
           <td mat-cell *matCellDef="let element"> {{element.email}} </td>
         </ng-container>
-
+        <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+          </ng-container>
         <ng-container matColumnDef="mobile">
           <th mat-header-cell *matHeaderCellDef> Mobile </th>
           <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
@@ -46,10 +52,9 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef> Action </th>
           <td mat-cell *matCellDef="let element">
-              <mat-icon  matTooltip="Edit user"  (click)="editUser(element._id)">edit</mat-icon>
-              <mat-icon  matTooltip="Delete user" class="mat-icon-delete" (click)="deleteUser(element, i)">clear</mat-icon>
-            <!-- <mat-icon (click)="editUser(element._id)">edit</mat-icon>
-            <mat-icon class="mat-icon-delete" (click)="deleteUser(element, i)">clear</mat-icon> -->
+              <mat-icon  matTooltip="Edit user"  (click)="editUser(element)">edit</mat-icon>
+              <mat-icon  matTooltip="Delete user" class="mat-icon-delete" 
+              (click)="deleteUser(element)">delete</mat-icon>
           </td>
         </ng-container>
 

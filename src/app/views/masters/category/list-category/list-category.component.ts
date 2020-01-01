@@ -2,19 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { HttpService } from '../../../../shared/services/http.service';
 import { Router } from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-
-export interface Category {
-  _id:Number;
-  category: string;
-  subCategory: string;
-  isActive:boolean;
-  createdAt:Date;
-  updattedAt:Date;
-  updatedBy:any;
-  createdBy:any;
-  remarks:any;
-}
+import {SnackbarService} from '../../../../shared/services/snackbar.service';
+import {DialogserviceComponent} from '../../../../shared/components/dialogservice/dialogservice.component';
+import{MatDialog} from '@angular/material/dialog';
+import{Category} from '../../../../shared/models/category.model';
 
 const ELEMENT_DATA: Category[] = [];
 
@@ -24,15 +15,16 @@ const ELEMENT_DATA: Category[] = [];
   styleUrls: ['./list-category.component.scss']
 })
 export class ListCategoryComponent implements OnInit {
-
-  displayedColumns: string[] = ['Category', 'Subcategory', 'Action'];
+  dialogData : {}
+  displayedColumns: string[] = ['position','Category', 'Subcategory', 'Action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private httpService: HttpService , private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private httpService: HttpService , private router: Router, private snackBar: SnackbarService, public MatDialog : MatDialog) { }
 
   ngOnInit() {
+    
+    try{
    this.httpService.get('categorylist').subscribe((res:any)=>{
-     
      
      if (res.success){
        res.data.forEach((element:any) => {
@@ -45,12 +37,14 @@ export class ListCategoryComponent implements OnInit {
      console.log('res',res.data);
      this.dataSource = new MatTableDataSource(res.data)
     }
-     ((err:any )=>{
-      this.snackBar.open('user');
-
-     })
-     
-   })
+   },
+   (err:any)=>{
+     this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+   } 
+   )}
+   catch(e){
+     this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
+   }
   }
 
   applyFilter(filterValue: string) {
@@ -58,15 +52,41 @@ export class ListCategoryComponent implements OnInit {
   }
 
   addCategory(){
-    this.router.navigate(['save-category',{action:'add'}])
+    this.router.navigate(['category/save-category',{action:'add'}])
   }
 
   editCategory(categoryId: Number){
-    this.router.navigate(['save-category',{action:'edit', Id:categoryId}])    
+    this.router.navigate(['category/save-category',{action:'edit', Id:categoryId}])    
   }
-
-  deleteCategory(){
-    alert('Delete category');
+  
+  deleteCategory(categoryId:Number){
+    this.httpService.get(`categorybyid/${categoryId}`).subscribe((res:any)=>{
+      this.dialogData = {
+        dialogHeader : categoryId + "category",
+        dialogMessage : "",
+        dialogAcceptBtn : "Yes",
+        dialogRejecteBtn : "No",
+        dailogTerm : res.data.category + ' '+ 'category',
+        dailogRoute:'list-category',
+       
+     }
+    
+      let dailogBox = this.MatDialog.open(DialogserviceComponent, {
+        data: this.dialogData
+      });
+      dailogBox.afterClosed().subscribe(value => {
+        let remarks = value.remarks
+        if(value.accept){
+          this.httpService.put(`deletecategory/${categoryId}`,remarks).subscribe((res:any)=>{
+            console.log('after deleting res',res);
+            this.ngOnInit()
+          })
+        }
+        
+      })
+    })
+    
+    // alert('Delete category');
   }
 
 }
