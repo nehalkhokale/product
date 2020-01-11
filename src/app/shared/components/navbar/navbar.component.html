@@ -1,13 +1,13 @@
-
-<mat-toolbar class= "navbarheader" *ngIf="isLoggedIn$ | async as isLoggedIn">
+<!-- *ngIf="isLoggedIn$ | async as isLoggedIn" -->
+<mat-toolbar class= "navbarheader" *ngIf="isLoggedIn$ | async as isLoggedIn" >
     <mat-toolbar-row>
         <button mat-icon-button (click)="sidenav.toggle()" style="font-size:30px;cursor:pointer">
             <mat-icon>menu</mat-icon>
         </button>
         <span >Expense Tracker</span>
-        <button class=" offset-sm-6 col-sm-3 expense" color="warm" (click)=" getCategory()" mat-raised-button> Add Expense</button>
+        <button class=" offset-sm-6 col-sm-3 expense"(click)=" getCategory()" mat-raised-button> Add Expense</button>
         <button class=" offset-sm-8 col-sm-3 expense" color="warm" (click)="logout()"mat-raised-button> Logout</button>
-       
+        <!-- <i class="fa fa-user-circle"></i>  -->
     </mat-toolbar-row>
 </mat-toolbar>
 

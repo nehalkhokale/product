@@ -21,7 +21,7 @@ import { LoginComponent } from './views/login/loginpage/login.component';
 import { ResetPasswordComponent } from './views/login/reset-password/reset-password.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { SaveExpenseComponent } from './views/Expenses/save-expense/save-expense.component';
+import { EditExpenseComponent } from './views/Expenses/edit-expense/edit-expense.component';
 import { AddSubcategoryComponent } from './views/Expenses/add-subcategory/add-subcategory.component';
 // import { DisablecontroldirectiveDirective } from './shared/services/disablecontroldirective.directive';
 
@@ -42,7 +42,7 @@ import { AddSubcategoryComponent } from './views/Expenses/add-subcategory/add-su
     LoginComponent,
     ResetPasswordComponent,
     NavbarComponent,
-    SaveExpenseComponent,
+    EditExpenseComponent,
     AddSubcategoryComponent,
     // DisablecontroldirectiveDirective,
     

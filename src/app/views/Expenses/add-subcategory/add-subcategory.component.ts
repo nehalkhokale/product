@@ -24,6 +24,7 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
   arrayIndex = 0;
   categoryId: Number;
   categoryObj: Expense[] = [];
+  paymentModes : string[] = ['Check','Cash','Debit card','Credit card','Paytm','Googlepay','Phonepay'];
   //  = {
   //   expenseDate: Date,
   //   ExpenseDetails: [{
@@ -41,6 +42,7 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
   status: boolean;
   formSubCategory: FormGroup;
   panelOpenState = false;
+  validation = false;
   counter: number = 0;
   public contactList: FormArray;
   constructor(private httpService: HttpService, private snackBar: SnackbarService, private expenseService: ExpenseService,
@@ -51,9 +53,10 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
     //   credentials: this.fb.array([]),
     // });
   }
-
   ngOnInit() {
-    this.dateForm = new FormControl('', Validators.required)
+    this.dateForm = new FormControl('' ,Validators.required)
+    // serializedDate = new FormControl((new Date()).toISOString());
+
     // this.initializeForm()
     this.expenseService.categoryDetails().subscribe((data) => {
       console.log('--data', data);
@@ -73,7 +76,16 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
   }
   addEvent(event: MatDatepickerInputEvent<Date>) {
 
-    this.date = event.value
+    // this.date = event.value;
+    console.log('---event.value', event.value, this.date);
+
+    if(event.value){
+      this.date = event.value;
+    }else{
+      this.date = null;
+    }
+    
+    this.validation = true
   }
   // initializeForm() {
   //   this.formSubCategory = new FormGroup({
@@ -165,17 +177,21 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
         if (i === this.categoryObj.length - 1) {
           
           try {
-            console.log('----here')
+            console.log('----here',data)
             this.httpService.post(`createexpense`, data).subscribe((res: any) => {
               console.log('res', res);
               if (res.success) {
                 this.expenseId = res.data._id
               } else {
+                console.log('here in snack ');
+                
                 this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
               }
 
             },
             (err:any)=>{
+              console.log('err',err);
+              
               this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
             })
           } catch (e) {

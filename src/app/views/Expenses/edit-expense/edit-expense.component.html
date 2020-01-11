@@ -1,0 +1,53 @@
+<div class="row mt-3">
+  <div class="col-md-3">
+    <mat-form-field>
+      <input matInput [matDatepicker]="dp1" placeholder="Start Date" [formControl]="startDateControl" required>
+      <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+      <mat-datepicker #dp1></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="col-md-3">
+    <mat-form-field>
+      <input matInput [matDatepicker]="dp2" placeholder="From Date" [formControl]="endDateControl" required>
+      <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+      <mat-datepicker #dp2></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <mat-card class="mb-3" *ngFor="let expense of expenseList" [value]="expense">
+      <mat-card-title>{{expense.expenseDate}}</mat-card-title>
+      <div class="row" *ngFor="let item of expense.ExpenseDetails">
+        <div class="col-sm-12">
+          <span>{{item.categoryObj._id}}</span>
+
+          <div class="row" *ngFor="let categoryItem of item.categoryObj.subCategory">
+            <div class="col-sm-4">
+              <span>{{categoryItem.name}}</span>
+            </div>  
+            <div class="col-sm-3">
+              <span>{{categoryItem.amount}}</span>
+            </div>  
+          </div>
+
+        </div>  
+      </div>
+
+      <!-- <div class="row" *ngFor="let categoryItem of item.ExpenseDetails">
+        <div class="col-sm-12">
+          <span>{{item | json}}</span>
+        </div>  
+      </div> -->
+      
+      <!-- <form [formGroup]="ExpenseDetailsFormGroup"  > -->
+      <!-- <mat-form-field *ngFor="let expense of ExpenseDetails" [value]="expenseDetails"> -->
+      <!-- <input matInput placeholder="Category" formControlName="category" required> -->
+      <!--  <span>{{expnese | json}}</span> -->
+      <!-- </mat-form-field> -->
+      <!-- </form> -->
+    </mat-card>
+  </div>
+</div>
+<!-- :{{expenseDetails.categoryObj._id}} -->
+<!-- *ngFor="let catergory of expenseDetails" [value]="expenseDetails" -->

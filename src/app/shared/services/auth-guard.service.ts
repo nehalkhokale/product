@@ -12,26 +12,27 @@ export class AuthGuardService    {
     private httpService: HttpService
   ) {}
   
-  // get isLoggedIn() {
-  //   this.httpService.get('/v1/auth/me').subscribe((res:any)=>{
-  //     console.log('---in auth me',res);
-     
-  //     if(res.success){
-  //        this.loggedIn.next(true)
-  //     }
-  //     else{
-  //       this.loggedIn.next(false)
-  //     }
-  //   })
-  //   // console.log('a',a);
-
-  //   // return a
-    
-  //   return this.loggedIn.asObservable();
-  // }
   get isLoggedIn() {
+    this.httpService.get('v1/auth/me').subscribe((res:any)=>{
+    //   console.log('---in auth me',res);
+     
+      if(res.success){
+        this.loggedIn.next(true);
+      }
+      else{
+        this.loggedIn.next(false)
+      }
+    })
+    // console.log('a',a);
+
+    // return a
+    
     return this.loggedIn.asObservable();
   }
+  
+  // get isLoggedIn() {
+  //   return this.loggedIn.asObservable();
+  // }
   
 
   login() {

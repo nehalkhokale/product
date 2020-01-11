@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
   showLoading: boolean = false;
   onLogin() {
     this.showLoading = true;
-    setTimeout(() => {
+    // setTimeout(() => {
       let data = this.loginForm.value;
       // console.log('---data', data);
       try {
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
           // console.log('---login', res.token);
           if (res.success) {
             sessionStorage.setItem('Token', JSON.stringify(res.token));
-            // console.log('---sessionStorage', sessionStorage);
+            console.log('---sessionStorage', sessionStorage);
             this.authGuardService.login()
             // this.router.navigate(['category/list-category', { action: 'add' }])
 
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
       } catch (e) {
         this.snackBar.openSnackBar(e.message, 'Close', 'red-snackbar');
       }
-    }, 5000);
+    // }, 5000);
   }
 
   onChangePassword() {
