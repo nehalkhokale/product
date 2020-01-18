@@ -13,41 +13,41 @@
       <mat-datepicker #dp2></mat-datepicker>
     </mat-form-field>
   </div>
+  <div class="col-md-1">
+    <button mat-mini-fab color="primary" (click)="getExpense()">
+      <mat-icon> arrow_forward</mat-icon>
+    </button>
+  </div>
 </div>
 <div class="row">
-  <div class="col-md-12">
-    <mat-card class="mb-3" *ngFor="let expense of expenseList" [value]="expense">
-      <mat-card-title>{{expense.expenseDate}}</mat-card-title>
+  <div class="col-md-6" *ngFor="let expense of expenseList">
+    <mat-card class="mb-3 card h-100">
+      <mat-card-title>{{expense.expenseDate | date: 'dd-MM-yyyy'}}</mat-card-title>
       <div class="row" *ngFor="let item of expense.ExpenseDetails">
         <div class="col-sm-12">
-          <span>{{item.categoryObj._id}}</span>
-
-          <div class="row" *ngFor="let categoryItem of item.categoryObj.subCategory">
-            <div class="col-sm-4">
-              <span>{{categoryItem.name}}</span>
-            </div>  
-            <div class="col-sm-3">
-              <span>{{categoryItem.amount}}</span>
-            </div>  
+          <div class="row">
+            <div class="col-sm-6">
+              <span class="text-danger">
+                <h5>{{item.categoryObj._id.category}}</h5>
+              </span>
+            </div>
+            <div class="col-sm-6 text-right">
+              <button class="edit-expense-cat" mat-icon-button aria-label="Example icon-button with a heart icon"
+                matTooltip="Add category " (click)="editCategory(expense.expenseDate, item.categoryObj,expense._id)">
+                <mat-icon class="pointer;">edit</mat-icon>
+              </button>
+            </div>
           </div>
-
-        </div>  
+          <div class="row" *ngFor="let categoryItem of item.categoryObj.subCategory">
+            <div class="col-6">
+              <span>{{categoryItem.name}}</span>
+            </div>
+            <div class="col-6 text-right">
+              <span>{{categoryItem.amount}}</span>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <!-- <div class="row" *ngFor="let categoryItem of item.ExpenseDetails">
-        <div class="col-sm-12">
-          <span>{{item | json}}</span>
-        </div>  
-      </div> -->
-      
-      <!-- <form [formGroup]="ExpenseDetailsFormGroup"  > -->
-      <!-- <mat-form-field *ngFor="let expense of ExpenseDetails" [value]="expenseDetails"> -->
-      <!-- <input matInput placeholder="Category" formControlName="category" required> -->
-      <!--  <span>{{expnese | json}}</span> -->
-      <!-- </mat-form-field> -->
-      <!-- </form> -->
     </mat-card>
   </div>
 </div>
-<!-- :{{expenseDetails.categoryObj._id}} -->
-<!-- *ngFor="let catergory of expenseDetails" [value]="expenseDetails" -->

@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../../shared/services/http.service';
+import { HttpService } from 'src/app/shared/services/http.service';
 import { Location } from '@angular/common';
-import { SnackbarService } from '../../../shared/services/snackbar.service';
-import { Expense } from '../../../shared/models/expense.model'
-import { Category } from '../../../shared/models/category.model';
-import { MasterService } from '../../../shared/services/master.service'
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { Expense } from 'src/app/shared/models/expense.model'
+import { Category } from 'src/app/shared/models/category.model';
+import { MasterService } from 'src/app/shared/services/master.service'
 import { Router } from '@angular/router';
 import { Validators, FormGroup, FormControl } from "@angular/forms";
-import {ExpenseService} from '../../../shared/services/expense.service'
-
+import { ExpenseService } from 'src/app/shared/services/expense.service'
+import { MatDialog } from '@angular/material/dialog';
+import { EditExpenseCategoryComponent } from '../edit-expense-category/edit-expense-category.component';
 const ELEMENT_DATA: Expense[] = [];
 
 @Component({
@@ -23,10 +24,14 @@ export class EditExpenseComponent implements OnInit {
   endDateControl:FormControl;
   ExpenseDetailsFormGroup: FormGroup
   
-
-
-  constructor(private httpService: HttpService, private snackBar: SnackbarService
-    , private location: Location, private masterService: MasterService , private router: Router , private expenseService:ExpenseService) { }
+  constructor(
+    private httpService: HttpService,
+    private snackBar: SnackbarService,
+    private location: Location,
+    private masterService: MasterService,
+    private router: Router,
+    private expenseService: ExpenseService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.ExpenseDetailsFormGroup =  new FormGroup({
@@ -37,13 +42,27 @@ export class EditExpenseComponent implements OnInit {
       startDate.setMonth(startDate.getMonth() , 1);
       this.startDateControl = new FormControl(startDate);
       this.endDateControl = new FormControl(new Date);
-      this.getExpense(this.startDateControl.value,  this.endDateControl.value)
+      this.getExpense()
 
   }
-  getExpense(startDate,endDate) {
+
+  editCategory(expenseDate: string, categoryObj: any,expenseID:number) {
+    console.log('categoryId', expenseDate, categoryObj);
+    const dialogRef = this.dialog.open(EditExpenseCategoryComponent, {
+      width: '90%',
+      data: { expenseDate: expenseDate, categoryObj: categoryObj ,_id:expenseID}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+    // this.router.navigate(['expense/editexpense',{action:'edit', expenseDate:expenseDate,categoryObj:categoryObj}])    
+  }
+  
+  getExpense() {
     let data ={
-      "startDate":startDate,
-      "endDate":endDate
+      "startDate":this.startDateControl.value,
+      "endDate":this.endDateControl.value
       }
     this.httpService.post('getreport',data).subscribe((res:any)=>{
       this.expenseList=res.data

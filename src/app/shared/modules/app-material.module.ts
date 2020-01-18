@@ -83,6 +83,8 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    
   ],
+  // providers: [ { provide: MatDialogTitle, useValue: {} }, { provide: MatDialogRef, useValue: {} }, { provide: MAT_DIALOG_DATA, useValue: [] } ]
 })
 export class AppMaterialModule { }

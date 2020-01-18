@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
   showLoading: boolean = false;
   onLogin() {
     this.showLoading = true;
-    // setTimeout(() => {
       let data = this.loginForm.value;
       // console.log('---data', data);
       try {
@@ -56,7 +55,6 @@ export class LoginComponent implements OnInit {
       } catch (e) {
         this.snackBar.openSnackBar(e.message, 'Close', 'red-snackbar');
       }
-    // }, 5000);
   }
 
   onChangePassword() {

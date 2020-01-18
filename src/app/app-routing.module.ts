@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './views/login/loginpage/login.component';
 import { ResetPasswordComponent } from './views/login/reset-password/reset-password.component';
+import { EditExpenseCategoryComponent } from './views/Expenses/edit-expense-category/edit-expense-category.component';
 import { 
   AuthGuard 
 } from './shared/services/auth.guard';
@@ -15,6 +16,8 @@ const routes: Routes = [
   { path: '', component: LoginComponent},
   {path: 'expense', component: EditExpenseComponent, canActivate:[AuthGuard]},
   {path: 'expense/addsubcategory', component: AddSubcategoryComponent, canActivate:[AuthGuard] },
+  {path: 'expense/editexpense', component: EditExpenseCategoryComponent, canActivate:[AuthGuard]},
+  // {path: 'expense/addsubcategory', component: AddSubcategoryComponent, canActivate:[AuthGuard] },
   { path: 'resetpassword', component: ResetPasswordComponent ,canActivate: [AuthGuard] },
   { path:'role', loadChildren: './views/masters/Role/role.module#RoleModule',canActivate: [AuthGuard]  },
   { path:'category', loadChildren: './views/masters/category/category.module#CategoryModule' ,canActivate: [AuthGuard] },

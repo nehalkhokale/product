@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './shared/modules/app-material.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared/services/auth.guard';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {  AuthGuardService  } from './shared/services/auth-guard.service';
 import {HttpInterceptorService} from './shared/services/httpinterceptors.service';
@@ -23,12 +24,13 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { EditExpenseComponent } from './views/Expenses/edit-expense/edit-expense.component';
 import { AddSubcategoryComponent } from './views/Expenses/add-subcategory/add-subcategory.component';
+import { EditExpenseCategoryComponent } from './views/Expenses/edit-expense-category/edit-expense-category.component';
 // import { DisablecontroldirectiveDirective } from './shared/services/disablecontroldirective.directive';
 
 @NgModule({
   entryComponents:[
     DialogserviceComponent,
-    // DisablecontroldirectiveDirective
+    EditExpenseCategoryComponent,
   ],
   declarations: [
     AppComponent,
@@ -44,6 +46,7 @@ import { AddSubcategoryComponent } from './views/Expenses/add-subcategory/add-su
     NavbarComponent,
     EditExpenseComponent,
     AddSubcategoryComponent,
+    EditExpenseCategoryComponent,
     // DisablecontroldirectiveDirective,
     
 
@@ -67,6 +70,8 @@ import { AddSubcategoryComponent } from './views/Expenses/add-subcategory/add-su
       useClass: HttpInterceptorService,
       multi: true
     },
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: [] },
     // {
     //   provide:  AuthGuardService,
     //   useClass: AuthGuard,

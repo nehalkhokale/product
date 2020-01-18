@@ -1,22 +1,24 @@
-<div class="offset-sm-11 col-sm-0">
-  <button  mat-flat-button type="button" color="warn" (click)="onDialogRejectBtn()" >
-  <mat-icon class="pointer;">clear</mat-icon>
-</button>
-</div>
-<h1 mat-dialog-title>Are you sure you want to delete {{data.dailogTerm}} ?</h1>
-<form [formGroup]="remaksGroup" (submit)="onDialogAcceptBtn()">
-  <mat-form-field>
-    <input matInput formControlName="remarks" (keyup)="remarkEntered()"
-      placeholder="Remark" required>
-  </mat-form-field>
-  <div class="bottomrigth">
-    <button (click)="onDialogRejectBtn()" type="button" class="mr-2" 
-      mat-raised-button>
-      Back
-    </button>
-    <button mat-raised-button color="primary" type="submit"
-      [disabled]="remaksGroup.invalid || !validRemark">
-      Save
-    </button>
-  </div>
-</form>
+
+<h2 mat-dialog-title>
+  Delete
+  <!-- <button  class="text-right" mat-flat-button type="button" color="warn" (click)="onDialogRejectBtn()" > -->
+    <mat-icon class="pointer text-right">clear</mat-icon>
+  <!-- </button> -->
+</h2>
+<mat-dialog-content class="mat-typography">
+  <h5>
+    Are you sure you want to delete {{data.dailogTerm}}?
+  </h5>
+  <form [formGroup]="remaksGroup" (submit)="onDialogAcceptBtn()">
+    <mat-form-field>
+      <input matInput formControlName="remarks" (onchange)="remarkEntered()" placeholder="Remark" required>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+ 
+  <button mat-raised-button color="primary" type="submit" [disabled]="remaksGroup.invalid || !validRemark">
+    Save
+  </button>
+</mat-dialog-actions>

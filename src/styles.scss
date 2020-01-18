@@ -157,17 +157,44 @@ table {
   100% { transform : rotate(360deg)};
 }
 
-
-
-
 //* background colour *//
-
-
-
 .mat-drawer-content{
   background-color:#FFF5EE;
 
 }
-
 //* background colour *//
 
+/* Scrollbar CSS */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+/* Scrollbar CSS */
+
+/* remove button outline */
+.cdk-focused { 
+  // background-color: transparent !important;
+  outline: none !important;
+}
+/* remove button outline */
+ 
+/* dialog CSS */
+.mat-dialog-content {
+  // width: 80vh !important;
+  height: 80vh !important;
+}
+/* dialog CSS */

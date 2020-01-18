@@ -55,6 +55,7 @@ export class DialogserviceComponent implements OnInit {
 
   validRemark: boolean = false;
   remarkEntered(){
+    console.log('hi');
     this.validRemark = (this.remaksGroup.value.remarks.trim().length > 0) ? true : false;
     // console.log('A', this.validRemark);
   }

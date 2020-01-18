@@ -1,0 +1,14 @@
+.card{
+    overflow-y: scroll;
+    min-height: 40vh;
+    max-height: 40vh;
+}
+.edit-expense-cat{
+    margin-right: -15px !important;
+}
+
+@media only screen and (max-width: 768px) {
+    .card {
+        overflow: hidden;
+    }
+}

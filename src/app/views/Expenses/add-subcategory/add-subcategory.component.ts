@@ -178,22 +178,22 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
           
           try {
             console.log('----here',data)
-            this.httpService.post(`createexpense`, data).subscribe((res: any) => {
-              console.log('res', res);
-              if (res.success) {
-                this.expenseId = res.data._id
-              } else {
-                console.log('here in snack ');
+            // this.httpService.post(`createexpense`, data).subscribe((res: any) => {
+            //   console.log('res', res);
+            //   if (res.success) {
+            //     this.expenseId = res.data._id
+            //   } else {
+            //     console.log('here in snack ');
                 
-                this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
-              }
+            //     this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
+            //   }
 
-            },
-            (err:any)=>{
-              console.log('err',err);
+            // },
+            // (err:any)=>{
+            //   console.log('err',err);
               
-              this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
-            })
+            //   this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+            // })
           } catch (e) {
             console.log('---in catch')
             this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
