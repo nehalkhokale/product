@@ -22,8 +22,7 @@ export class EditExpenseComponent implements OnInit {
   expenseList =[];
   startDateControl:FormControl;
   endDateControl:FormControl;
-  ExpenseDetailsFormGroup: FormGroup
-  
+  ExpenseDetailsFormGroup: FormGroup;
   constructor(
     private httpService: HttpService,
     private snackBar: SnackbarService,
@@ -43,7 +42,8 @@ export class EditExpenseComponent implements OnInit {
       this.startDateControl = new FormControl(startDate);
       this.endDateControl = new FormControl(new Date);
       this.getExpense()
-
+      console.log(' navigate');
+      
   }
 
   editCategory(expenseDate: string, categoryObj: any,expenseID:number) {
@@ -54,7 +54,10 @@ export class EditExpenseComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      console.log('The dialog was closed',result);
+      if(result.accept){
+        this.ngOnInit()
+      }
     });
     // this.router.navigate(['expense/editexpense',{action:'edit', expenseDate:expenseDate,categoryObj:categoryObj}])    
   }
@@ -67,6 +70,7 @@ export class EditExpenseComponent implements OnInit {
     this.httpService.post('getreport',data).subscribe((res:any)=>{
       this.expenseList=res.data
       console.log('res in expense',this.expenseList);
+      // this.closeDialog 
       // this.list_category = res.data;
     //   res.data.forEach((element,i) => {
     //     element.ExpenseDetails.forEach((category,j) => {

@@ -54,24 +54,11 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
     // });
   }
   ngOnInit() {
-    this.dateForm = new FormControl('' ,Validators.required)
-    // serializedDate = new FormControl((new Date()).toISOString());
-
-    // this.initializeForm()
+    this.dateForm = new FormControl('' ,Validators.required)  
     this.expenseService.categoryDetails().subscribe((data) => {
       console.log('--data', data);
     });
-    // console.log('---this.categoryDetails$', this.categoryDetails$);
-    // this.status = true
-    // this.activatedRoute.params.subscribe(params => {
-    //   this.categoryId = params['Id'];
-    //   this.actionValue = params['action'];
-    //   this.date = params['date'];
-    //   if (this.actionValue === "edit") {
-    this.getCategory()
-
-    //   }
-    // });
+    this.getCategory({accept:false})
 
   }
   addEvent(event: MatDatepickerInputEvent<Date>) {
@@ -87,25 +74,41 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
     
     this.validation = true
   }
-  // initializeForm() {
-  //   this.formSubCategory = new FormGroup({
-  //     amount:new FormControl( '', [Validators.required]),
-  //     paymentMode: new FormControl( '', [Validators.required]),
-  //     subCategory: new FormControl( '', [Validators.required]),     
-  //   });
-  // }
-  getCategory() {
+ 
+  getCategory(accept:any) {
     try {
-      this.masterService.getCategoryList().subscribe((res: any) => {
-        console.log('res in expense', res.data);
-        this.category_list = res.data;
-        this.getSubcategory(this.category_list[0]._id)
-        this.categoryId = this.category_list[0]._id
-        console.log('this.category_list', this.category_list[0]._id);
-
-      }, (err: any) => {
-        this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
-      });
+      if(accept){
+        this.masterService.getCategoryList().subscribe((res: any) => {
+          console.log('res in expense', res.data);
+          this.category_list = res.data;
+          this.getSubcategory(this.category_list[0]._id)
+          this.categoryId = this.category_list[0]._id
+          console.log('this.category_list', this.category_list[0]._id);
+  
+        }, (err: any) => {
+          this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+        });
+      }else{
+        
+       
+        console.log('--------', this.categoryId ,this.categoryArray,this.subcategory_list ,this.categoryObj);
+        
+        // this.masterService.getCategoryList().subscribe((res: any) => {
+        //   this.category_list = res.data;
+        // this.categoryArray.forEach(element => {
+        //   console.log('element',element);
+          
+        //   this.httpService.get(`/expense/getsubcategory/${element}`).subscribe((res: any) => {
+        //     this.subcategory_list = res.data.subCategory;
+        //   })
+        // });
+         
+        // })
+        // console.log('this.categoryObj',this.categoryObj=[]);
+        // this.dateForm = new FormControl('' ,Validators.required)
+        
+      }
+      
     } catch (e) {
       this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
     }
@@ -116,16 +119,17 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
       console.log('--categoryId getSubcategory', categoryId);
 
       let Id = this.categoryArray.includes(categoryId)
-      if (Id) {
+      if (Id) {console.log('  in id ');
+      
         let obj = []
         obj = this.categoryObj.filter((e) => categoryId == e._id)
         this.subcategory_list = obj[0].subCategory
       } else {
         this.httpService.get(`/expense/getsubcategory/${categoryId}`).subscribe((res: any) => {
-          // this.categoryObj.ExpenseDetails.subCatDetails.push(res.data.subCategory);
           this.categoryArray.push(categoryId)
           this.categoryObj.push(res.data);
           console.log('res in subcat', this.categoryObj);
+          console.log('--------m', this.categoryId ,this.categoryArray,this.subcategory_list, );
           this.categoryId = res.data._id
           this.subcategory_list = res.data.subCategory;
         }, (err: any) => {
@@ -138,62 +142,38 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
     }
 
   }
-  // addCategory(count:number){
-  //   count=this.counter ++
-  //   this.categoryObj.ExpenseDetails[count].subCatDetails.push({ subCategory: subCategoryName ,amount:this.formSubCategory.value.amount,paymentMode:this.formSubCategory.value.paymentMode});
-  //   console.log('---subCategoryId',subCategoryName);
-
-  //   //'/expense'
-
-  // }
+  
   onSave() {
     try {
-
-      // console.log('--subcategory_list', this.subcategory_list);
-      // console.log('--this.categoryObj', this.categoryObj);
-
       let ExpenseDetails = []
 
       let categoryObj = {}
 
-      // console.log('-- here this.categoryObj', this.categoryObj);
-
       this.categoryObj.forEach((ele, i) => {
-        // console.log('----here', ele);
-
         categoryObj = {
           categoryObj: ele
         }
         ExpenseDetails.push(categoryObj)
-        // console.log('--ExpenseDetails', ExpenseDetails);
-
-        // console.log('i', i, this.categoryObj.length - 1, ExpenseDetails);
         let data = {
           expenseDate: this.date,
           ExpenseDetails: ExpenseDetails
         }
-
-        // console.log('---data', data);
         if (i === this.categoryObj.length - 1) {
           
           try {
-            console.log('----here',data)
-            // this.httpService.post(`createexpense`, data).subscribe((res: any) => {
-            //   console.log('res', res);
-            //   if (res.success) {
-            //     this.expenseId = res.data._id
-            //   } else {
-            //     console.log('here in snack ');
-                
-            //     this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
-            //   }
+            this.httpService.post(`createexpense`, data).subscribe((res: any) => {
+              if (res.success) {
+                // this.expenseId = res.data._id
+              } else {                
+                this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
+              }
 
-            // },
-            // (err:any)=>{
-            //   console.log('err',err);
+            },
+            (err:any)=>{
+              console.log('err',err);
               
-            //   this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
-            // })
+              this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
+            })
           } catch (e) {
             console.log('---in catch')
             this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');

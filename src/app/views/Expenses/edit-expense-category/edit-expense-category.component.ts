@@ -21,8 +21,8 @@ export class EditExpenseCategoryComponent implements OnInit {
     public dialogRef: MatDialogRef<EditExpenseCategoryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private httpService: HttpService,
-    private router: ActivatedRoute,
-    // private location: Location ,
+    private router: Router,
+    private location: Location ,
     // // private masterService: MasterService,
     private snackBar: SnackbarService
   ) { }
@@ -84,8 +84,8 @@ export class EditExpenseCategoryComponent implements OnInit {
     this.httpService.put(`expense/editcatexpense/${this.editExpenseCategory._id}`,this.editExpenseCategory).subscribe((res:any)=>{
       
       if (res.success){
-      this.snackBar.openSnackBar('updated Expense', 'Close', 'green-snackbar');
-      // this.dataSource = new MatTableDataSource(res.data)
+      this.snackBar.openSnackBar('updated Expense', 'Close', 'green-snackbar'); 
+      this.dialogRef.close({accept:true});
       }
     },
     (err:any)=>{

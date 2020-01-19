@@ -54,7 +54,7 @@ export class ListUserComponent implements OnInit {
       dialogAcceptBtn: "Yes",
       dialogRejecteBtn: "No",
       dailogTerm: ele.name.firstName + ' ' + ele.name.lastName + ' ' + 'user',
-      dailogRoute: 'user/list-user'
+      // dailogRoute: 'user/list-user'
     }
 
     let dailogBox = this.MatDialog.open(DialogserviceComponent, {
