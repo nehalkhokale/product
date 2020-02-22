@@ -109,10 +109,8 @@ export class SaveCategoryComponent implements OnInit {
   }
 
   getCategory(){
-    console.log('categoryId',this.categoryId);
     try{
     this.httpService.get(`categorybyid/${this.categoryId}`).subscribe((res:any)=>{
-      console.log('909090 res.data',res.data)
       this.categoryObj = res.data
       let subCategoryArray : string[]= [];
       res.data.subCategory.forEach((subCategoryName,index)=>{

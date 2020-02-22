@@ -17,7 +17,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./add-subcategory.component.scss']
 })
 export class AddSubcategoryComponent implements OnInit, OnDestroy {
-  // categoryDetails$: Observable<boolean>;
+  initial:any;
   dateForm: FormControl;
   expenseId: Number;
   categoryArray: any = [];
@@ -25,13 +25,6 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
   categoryId: Number;
   categoryObj: Expense[] = [];
   paymentModes : string[] = ['Check','Cash','Debit card','Credit card','Paytm','Googlepay','Phonepay'];
-  //  = {
-  //   expenseDate: Date,
-  //   ExpenseDetails: [{
-  //     category: Number,
-  //     subCatDetails: []
-  //   }]
-  // };
   arrayExpenseDetails: any;
   date: Date;
   actionValue: String;
@@ -56,15 +49,11 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dateForm = new FormControl('' ,Validators.required)  
     this.expenseService.categoryDetails().subscribe((data) => {
-      console.log('--data', data);
     });
     this.getCategory({accept:false})
 
   }
   addEvent(event: MatDatepickerInputEvent<Date>) {
-
-    // this.date = event.value;
-    console.log('---event.value', event.value, this.date);
 
     if(event.value){
       this.date = event.value;
@@ -79,34 +68,22 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
     try {
       if(accept){
         this.masterService.getCategoryList().subscribe((res: any) => {
-          console.log('res in expense', res.data);
           this.category_list = res.data;
           this.getSubcategory(this.category_list[0]._id)
           this.categoryId = this.category_list[0]._id
-          console.log('this.category_list', this.category_list[0]._id);
   
         }, (err: any) => {
           this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
         });
       }else{
-        
-       
-        console.log('--------', this.categoryId ,this.categoryArray,this.subcategory_list ,this.categoryObj);
-        
-        // this.masterService.getCategoryList().subscribe((res: any) => {
-        //   this.category_list = res.data;
-        // this.categoryArray.forEach(element => {
-        //   console.log('element',element);
-          
-        //   this.httpService.get(`/expense/getsubcategory/${element}`).subscribe((res: any) => {
-        //     this.subcategory_list = res.data.subCategory;
-        //   })
-        // });
-         
-        // })
-        // console.log('this.categoryObj',this.categoryObj=[]);
-        // this.dateForm = new FormControl('' ,Validators.required)
-        
+          this.httpService.get(`/expense/getsubcategory/${this.categoryId}`).subscribe((res: any) => {
+            this.categoryObj = []
+            this.categoryArray =[]
+            this.date=null
+            this.categoryObj.push(res.data)
+            this.subcategory_list=res.data.subCategory
+
+          })
       }
       
     } catch (e) {
@@ -116,20 +93,17 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
 
   getSubcategory(categoryId: Number) {
     try {
-      console.log('--categoryId getSubcategory', categoryId);
-
       let Id = this.categoryArray.includes(categoryId)
-      if (Id) {console.log('  in id ');
+      if (Id) {
       
         let obj = []
         obj = this.categoryObj.filter((e) => categoryId == e._id)
         this.subcategory_list = obj[0].subCategory
+        
       } else {
         this.httpService.get(`/expense/getsubcategory/${categoryId}`).subscribe((res: any) => {
           this.categoryArray.push(categoryId)
           this.categoryObj.push(res.data);
-          console.log('res in subcat', this.categoryObj);
-          console.log('--------m', this.categoryId ,this.categoryArray,this.subcategory_list, );
           this.categoryId = res.data._id
           this.subcategory_list = res.data.subCategory;
         }, (err: any) => {
@@ -145,6 +119,7 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
   
   onSave() {
     try {
+      
       let ExpenseDetails = []
 
       let categoryObj = {}
@@ -153,6 +128,7 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
         categoryObj = {
           categoryObj: ele
         }
+        
         ExpenseDetails.push(categoryObj)
         let data = {
           expenseDate: this.date,
@@ -161,6 +137,7 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
         if (i === this.categoryObj.length - 1) {
           
           try {
+            
             this.httpService.post(`createexpense`, data).subscribe((res: any) => {
               if (res.success) {
                 // this.expenseId = res.data._id
@@ -170,12 +147,12 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
 
             },
             (err:any)=>{
-              console.log('err',err);
+              console.log('0nsave err',err);
               
               this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
             })
           } catch (e) {
-            console.log('---in catch')
+            console.log('---in catch in post')
             this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
           }
         }
@@ -193,7 +170,6 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
     // this.categoryObj.ExpenseDetails.push({ category: this.categoryId, subCatDetails: this.subcategory_list })
     let d = this.categoryObj
     this.httpService.put(`/expense/${this.expenseId}`, d).subscribe((res: any) => {
-      console.log('---res', res);
     })
   }
 

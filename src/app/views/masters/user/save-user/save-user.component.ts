@@ -84,8 +84,6 @@ export class SaveUserComponent implements OnInit {
       lastName: data.lastName,
     }
     this.url =(this.actionValue === 'add')?"createuser" :`updateuser/${this.userId}`
-    console.log('role', data);
-   
     this.masterService.onAddButton(this.actionValue,data,this.url)
     // if (this.actionValue === 'add') {
     //   try {
@@ -147,12 +145,9 @@ export class SaveUserComponent implements OnInit {
 
   validation_messages = this.httpService.validation_messages
   getUser() {
-    console.log('userId', this.userId);
     try {
       this.httpService.get(`userbyid/${this.userId}`).subscribe((res: any) => {
         this.userObj = res.data
-        console.log('---get gender', res.data, this.userObj.gender);
-
         this.userForm = new FormGroup({
           firstName: new FormControl(this.userObj.name.firstName, Validators.required),
           lastName: new FormControl(this.userObj.name.lastName, Validators.required),

@@ -1,27 +1,30 @@
-
-<!-- <h2 mat-dialog-title>
-  Delete
-  
-    <mat-icon class="pointer text-right">clear</mat-icon>
-</h2>
-<mat-dialog-content class="mat-typography">
-  <h5>
-    Are you sure you want to delete {{data.dailogTerm}}?
-  </h5>
-  <form [formGroup]="remaksGroup" (submit)="onDialogAcceptBtn()">
+<div class="row">
+  <div class="col-sm-10">
+    <h2 mat-dialog-title>Delete</h2>
+  </div>
+  <div class="col-sm-2 text-right">
+    <button mat-flat-button type="button" color="warn" (click)="onDialogRejectBtn()">
+      <mat-icon class="pointer;">clear</mat-icon>
+    </button>
+  </div>
+</div>
+<form [formGroup]="remaksGroup" (submit)="onDialogAcceptBtn()">
+  <mat-dialog-content class="mat-typography">
+    <h1 mat-dialog-title><span class="text-secondary">Are you sure you want to delete</span> {{data.dailogTerm}} ?</h1>
     <mat-form-field>
-      <input matInput formControlName="remarks" (onchange)="remarkEntered()" placeholder="Remark" required>
+      <input matInput formControlName="remarks" (keyup)="remarkEntered()" placeholder="Remark" required>
     </mat-form-field>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
- 
-  <button mat-raised-button color="primary" type="submit" [disabled]="remaksGroup.invalid || !validRemark">
-    Save
-  </button>
-</mat-dialog-actions> -->
-<div class="offset-sm-11 col-sm-0">
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close type="button">Back</button>
+    <button mat-raised-button color="primary" type="submit"
+      [disabled]="remaksGroup.invalid || !validRemark" cdkFocusInitial>
+      Delete
+    </button>
+  </mat-dialog-actions>
+</form>
+
+<!-- <div class="offset-sm-11 col-sm-0">
   <button  mat-flat-button type="button" color="warn" (click)="onDialogRejectBtn()" >
   <mat-icon class="pointer;">clear</mat-icon>
 </button>
@@ -42,4 +45,4 @@
       Save
     </button>
   </div>
-</form>
+</form> -->

@@ -35,8 +35,6 @@ export class MasterService {
         this.httpService.post(url, data).subscribe((res: any) => {
           // this.showLoading = false;
           if (res.success) {
-            console.log('res');
-            
             this.snackBar.openSnackBar(res.message, 'Close', 'green-snackbar')
             this.location.back();
           }

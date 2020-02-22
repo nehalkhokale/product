@@ -20,17 +20,14 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-    console.log('--this.isLoggedIn$',this.isLoggedIn$);
     this.cdr.detectChanges()
     // this.getCategory()
   }
 
   getCategory(){
     this.router.navigate(['expense/addsubcategory'])
-    // console.log('here navbar');   
   }
   logout(){
-    // console.log('logout from component');    
     this.authService.logout();
   }
 }

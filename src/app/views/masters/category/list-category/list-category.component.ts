@@ -34,7 +34,6 @@ export class ListCategoryComponent implements OnInit {
        })
        element.subCategory = subCategoryArray
      });
-     console.log('res',res.data);
      this.dataSource = new MatTableDataSource(res.data)
     }
    },
@@ -78,7 +77,6 @@ export class ListCategoryComponent implements OnInit {
         let remarks = value.remarks
         if(value.accept){
           this.httpService.put(`deletecategory/${categoryId}`,remarks).subscribe((res:any)=>{
-            console.log('after deleting res',res);
             this.ngOnInit()
           })
         }

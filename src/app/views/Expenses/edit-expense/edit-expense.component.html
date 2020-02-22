@@ -1,14 +1,14 @@
 <div class="row mt-3">
   <div class="col-md-3">
     <mat-form-field>
-      <input matInput [matDatepicker]="dp1" placeholder="Start Date" [formControl]="startDateControl" required>
+      <input matInput [matDatepicker]="dp1" placeholder="Start Date(MM/DD/YYYY)" [formControl]="startDateControl" required>
       <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
       <mat-datepicker #dp1></mat-datepicker>
     </mat-form-field>
   </div>
   <div class="col-md-3">
     <mat-form-field>
-      <input matInput [matDatepicker]="dp2" placeholder="From Date" [formControl]="endDateControl" required>
+      <input matInput [matDatepicker]="dp2" placeholder="From Date (MM/DD/YYYY)" [formControl]="endDateControl" required>
       <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
       <mat-datepicker #dp2></mat-datepicker>
     </mat-form-field>

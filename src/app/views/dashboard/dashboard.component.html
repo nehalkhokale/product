@@ -1,0 +1,44 @@
+<div class="mb-3">
+    <div class="row mt-2">
+        <div class="offset-sm-2 col-sm-10">
+            <button mat-raised-button class="mr-2" (click)="setDate(0,'Day')">Day</button>
+            <button mat-raised-button class="mr-2" (click)="setDate(0,'Month')">Month</button>
+            <button mat-raised-button class="mr-2" (click)="setDate(0,'Year')">Year</button>
+            <label for="displaySelection">{{dateValue}}</label>
+        </div>
+        <!-- <div class="col-sm-3">
+            <button  mat-raised-button (click)="getExpenseChart('Month')" >Month</button>
+        </div>
+        <div class="col-sm-3">
+            <button  mat-raised-button (click)="getExpenseChart('Year')" >Year</button>
+        </div> -->
+        <!-- <div class="col-sm-3">
+            <label for="displaySelection">{{dateValue}}</label>
+        </div> -->
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-12">
+            <button (click)="decrement()" mat-raised-button matTooltip="Previous">
+                <mat-icon class="fa fa-angle-left" aria-hidden="true"></mat-icon>
+            </button>
+            <button class="ml-2" (click)="increment()" mat-raised-button matTooltip="Next">
+                <mat-icon class="fa fa-angle-right" aria-hidden="true"></mat-icon>
+            </button>
+        </div>
+    </div>
+    <!-- <div id="chartContainer" style="height: 370px; width: 100%;
+    margin-left:auto;margin-right:auto;"></div> -->
+</div>
+
+<div class="row" *ngIf="!displayChart">
+    <div class="col-sm-12">
+        <mat-card>
+            No expenses for selected duration
+        </mat-card>
+    </div>
+</div>
+
+<div id="chart" *ngIf="displayChart">
+    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+        [responsive]="chartOptions.responsive"></apx-chart>
+</div>

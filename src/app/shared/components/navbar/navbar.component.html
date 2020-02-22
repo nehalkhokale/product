@@ -1,20 +1,23 @@
 <!-- *ngIf="isLoggedIn$ | async as isLoggedIn" -->
-<mat-toolbar class= "navbarheader"  *ngIf="isLoggedIn$ | async as isLoggedIn">
+<mat-toolbar color="primary" *ngIf="isLoggedIn$ | async as isLoggedIn">
     <mat-toolbar-row>
-        <button mat-icon-button (click)="sidenav.toggle()" style="font-size:30px;cursor:pointer">
-            <mat-icon>menu</mat-icon>
+        <button mat-icon-button class="col-sm-1" (click)="sidenav.toggle()"
+            style="font-size:30px;cursor:pointer"> <mat-icon>menu</mat-icon>
         </button>
-        <span >Expense Tracker</span>
-        <button class=" offset-sm-6 col-sm-3 expense"(click)=" getCategory()" mat-raised-button> Add Expense</button>
-        <button class=" offset-sm-8 col-sm-3 expense" color="warm" (click)="logout()"mat-raised-button> Logout</button>
-        <!-- <i class="fa fa-user-circle"></i>  -->
+        <span class="col-sm-3 clickable" [routerLink]="['/dashboard']"
+            routerLinkActive="router-link-active">
+            Expense Tracker
+        </span>
+        <span class="example-spacer"></span>
+        <button class="offset-sm-2 col-sm-3 example-icon" (click)=" getCategory()" 
+            mat-raised-button>Add Expense</button>
+        <button class="col-sm-3 ml-2 example-icon" color="warm" (click)="logout()" 
+            mat-raised-button>Logout</button>
     </mat-toolbar-row>
 </mat-toolbar>
-
 <mat-sidenav-container fxFlexFill>
     <mat-sidenav #sidenav>
-        <mat-nav-list (click)="sidenav.toggle()" style="font-size:30px;cursor:pointer">
-           
+        <mat-nav-list (click)="sidenav.toggle()" style="font-size:30px; cursor:pointer">
             <mat-toolbar-row>
                 <a routerLink="category" mat-button>Category </a>
             </mat-toolbar-row>
@@ -32,6 +35,11 @@
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
+
+<!-- <div class="container">
+  <router-outlet></router-outlet>
+</div> -->
+
 <!-- <div *ngIf="isLoggedIn$ | async as isLoggedIn">
     <div>
         welcome

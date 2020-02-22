@@ -23,17 +23,13 @@ export class ResetPasswordComponent implements OnInit {
   }
   onChangesPassword() {
     let data = this.resetForm.value;
-    console.log('---data user/changepassword', data);
     if (this.resetForm.value.newpassword === this.resetForm.value.confirmpassword) {
       this.httpService.post('user/changepassword', data).subscribe((res: any) => {
-        console.log('---user/changepassword', res);
         if (res.success) {
           this.router.navigate(['category/list-category', { action: 'add' }])
 
         } else {
           this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
-          
-
         }
 
       })

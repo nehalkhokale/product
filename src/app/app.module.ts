@@ -25,7 +25,9 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { EditExpenseComponent } from './views/Expenses/edit-expense/edit-expense.component';
 import { AddSubcategoryComponent } from './views/Expenses/add-subcategory/add-subcategory.component';
 import { EditExpenseCategoryComponent } from './views/Expenses/edit-expense-category/edit-expense-category.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 // import { DisablecontroldirectiveDirective } from './shared/services/disablecontroldirective.directive';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   entryComponents:[
@@ -47,6 +49,7 @@ import { EditExpenseCategoryComponent } from './views/Expenses/edit-expense-cate
     EditExpenseComponent,
     AddSubcategoryComponent,
     EditExpenseCategoryComponent,
+    DashboardComponent,
     // DisablecontroldirectiveDirective,
     
 
@@ -56,6 +59,7 @@ import { EditExpenseCategoryComponent } from './views/Expenses/edit-expense-cate
   ],
   imports: [
     BrowserModule,
+    NgApexchartsModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,

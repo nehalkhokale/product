@@ -33,7 +33,6 @@ export class StorageService {
 
   getUserById(_id: number) {
     let objUser = this.data.find(ele => ele._id == _id);
-    console.log('objUser', objUser);
     return objUser;
   }
 }

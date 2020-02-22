@@ -13,9 +13,7 @@ export class AuthGuardService    {
   ) {}
   
   get isLoggedIn() {
-    this.httpService.get('v1/auth/me').subscribe((res:any)=>{
-    //   console.log('---in auth me',res);
-     
+    this.httpService.get('v1/auth/me').subscribe((res:any)=>{     
       if(res.success){
         this.loggedIn.next(true);
       }
@@ -23,9 +21,6 @@ export class AuthGuardService    {
         this.loggedIn.next(false)
       }
     })
-    // console.log('a',a);
-
-    // return a
     
     return this.loggedIn.asObservable();
   }
@@ -38,13 +33,12 @@ export class AuthGuardService    {
   login() {
     // if (user.userName !== '' && user.password !== '' ) {
       this.loggedIn.next(true);
-      this.router.navigate(['role']);
+      this.router.navigate(['dashboard']);
     // }
   }
 
   logout() {
-    // console.log('logout from service');
-
+    sessionStorage.clear();
     this.loggedIn.next(false);
     this.router.navigate(['']);
   }

@@ -3,25 +3,26 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './views/login/loginpage/login.component';
 import { ResetPasswordComponent } from './views/login/reset-password/reset-password.component';
 import { EditExpenseCategoryComponent } from './views/Expenses/edit-expense-category/edit-expense-category.component';
-import { 
-  AuthGuard 
+import {
+  AuthGuard
 } from './shared/services/auth.guard';
 import { EditExpenseComponent } from './views/Expenses/edit-expense/edit-expense.component';
 // import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { AddSubcategoryComponent } from './views/Expenses/add-subcategory/add-subcategory.component';
-// import { DisablecontroldirectiveDirective } from './shared/services/disablecontroldirective.directive';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 
 const routes: Routes = [
   // {path: 'disable', component: DisablecontroldirectiveDirective },
-  { path: '', component: LoginComponent},
-  {path: 'expense', component: EditExpenseComponent, canActivate:[AuthGuard]},
-  {path: 'expense/addsubcategory', component: AddSubcategoryComponent, canActivate:[AuthGuard] },
-  {path: 'expense/editexpense', component: EditExpenseCategoryComponent, canActivate:[AuthGuard]},
+  { path: '', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'expense', component: EditExpenseComponent },
+  { path: 'expense/addsubcategory', component: AddSubcategoryComponent, canActivate: [AuthGuard] },
+  { path: 'expense/editexpense', component: EditExpenseCategoryComponent },
   // {path: 'expense/addsubcategory', component: AddSubcategoryComponent, canActivate:[AuthGuard] },
-  { path: 'resetpassword', component: ResetPasswordComponent ,canActivate: [AuthGuard] },
-  { path:'role', loadChildren: './views/masters/Role/role.module#RoleModule',canActivate: [AuthGuard]  },
-  { path:'category', loadChildren: './views/masters/category/category.module#CategoryModule' ,canActivate: [AuthGuard] },
-  { path:'user', loadChildren: './views/masters/user/user.module#UserModule' ,canActivate: [AuthGuard] },
+  { path: 'resetpassword', component: ResetPasswordComponent, canActivate: [AuthGuard] },
+  { path: 'role', loadChildren: './views/masters/role/role.module#RoleModule', canActivate: [AuthGuard] },
+  { path: 'category', loadChildren: './views/masters/category/category.module#CategoryModule', canActivate: [AuthGuard] },
+  { path: 'user', loadChildren: './views/masters/user/user.module#UserModule', canActivate: [AuthGuard] },
   // {path:'**',component:LoginComponent}
 
 ];

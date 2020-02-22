@@ -1,14 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-
-html,body{
+html, body {
   height: 100%;
-  font-family: 'Nunito' !important;
+  font-family: "Nunito" !important;
 }
-body * :not(mat-icon){ 
-  font-family: 'Nunito' !important;
+
+body * :not(mat-icon) {
+  font-family: "Nunito" !important;
 }
 
 /* Material element CSS */
@@ -19,103 +19,18 @@ mat-form-field {
 mat-icon {
   cursor: pointer;
 }
+
 /* Material element CSS */
- th.mat-header-cell  {
+th.mat-header-cell {
   font-size: 110%;
-    
 }
- td.mat-cell, td.mat-footer-cell{
+td.mat-cell,
+td.mat-footer-cell {
   font-size: 100%;
 }
+
 .mat-icon-delete {
-  color: #ff1414 !important;/* You can add global styles to this file, and also import other style files */
-  @import "~bootstrap/dist/css/bootstrap.css";
-  @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-  
-  
-  html,body {
-    height: 100%;
-    font-family: 'Nunito' !important;
-  }
-  body * :not(mat-icon){
-   
-    font-family: 'Nunito' !important;
-  }
-  
-  /* Material element CSS */
-  mat-form-field {
-    width: 100%;
-  }
-  
-  mat-icon {
-    cursor: pointer;
-  }
-  /* Material element CSS */
-   th.mat-header-cell  {
-    font-size: 110%;
-      
-  }
-   td.mat-cell, td.mat-footer-cell{
-    font-size: 100%;
-  }
-  .mat-icon-delete {
-    color: #ff1414 !important;
-  }
-  /* Material element CSS */
-  
-  .clickable {
-    cursor: pointer;
-  }
-  
-  /* Table CSS */
-  table {
-    width: 100%;
-  }
-  
-  .table-container  {
-    min-height: 70vh;
-    max-height: 70vh;
-    overflow: auto;
-    background-color:white
-  
-  }
-  /* Table CSS */
-  
-  /* Snackbar CSS */
-  .green-snackbar {
-    background: #32CD32
-  }
-  
-  .red-snackbar {
-    background: #F44336;
-  }
-  /* Snackbar CSS */
-  
-  @-webkit-keyframes spin {
-    0% { -webkit-transform : rotate(0deg)};
-    100% { -webkit-transform : rotate(360deg)};
-  }
-  
-  @keyframes spin {
-    0% { transform : rotate(0deg)};
-    100% { transform : rotate(360deg)};
-  }
-  
-  
-  
-  
-  //* background colour *//
-  
-  
-  
-  .mat-drawer-content{
-    background-color:#FFF5EE;
-  
-  }
-  
-  //* background colour *//
-  
-  
+  color: #ff1414 !important;
 }
 /* Material element CSS */
 
@@ -128,41 +43,52 @@ table {
   width: 100%;
 }
 
-.table-container  {
+.table-container {
   min-height: 70vh;
   max-height: 70vh;
   overflow: auto;
-  background-color:white
-
+  background-color: white;
 }
 /* Table CSS */
 
 /* Snackbar CSS */
 .green-snackbar {
-  background: #32CD32
+  background: #32cd32;
 }
 
 .red-snackbar {
-  background: #F44336;
+  background: #f44336;
 }
 /* Snackbar CSS */
 
 @-webkit-keyframes spin {
-  0% { -webkit-transform : rotate(0deg)};
-  100% { -webkit-transform : rotate(360deg)};
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform : rotate(0deg)};
-  100% { transform : rotate(360deg)};
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 //* background colour *//
-.mat-drawer-content{
-  background-color:#FFF5EE;
-
+.mat-drawer-content {
+  background-color: #fff5ee;
 }
 //* background colour *//
+
+/* Material element CSS */
+.clickable {
+  cursor: pointer;
+}
 
 /* Scrollbar CSS */
 ::-webkit-scrollbar {
@@ -171,30 +97,29 @@ table {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 /* Scrollbar CSS */
 
 /* remove button outline */
-.cdk-focused { 
+.cdk-focused {
   // background-color: transparent !important;
   outline: none !important;
 }
 /* remove button outline */
- 
+
 /* dialog CSS */
 .mat-dialog-content {
-  // width: 80vh !important;
   height: 80vh !important;
 }
 /* dialog CSS */

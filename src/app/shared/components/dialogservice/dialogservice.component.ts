@@ -49,15 +49,12 @@ export class DialogserviceComponent implements OnInit {
   }
 
   onDialogRejectBtn(): void {
-    console.log('In reject');
     this.dialogRef.close({ remarks: '', accept: false });
   }
 
   validRemark: boolean = false;
   remarkEntered(){
-    console.log('hi');
     this.validRemark = (this.remaksGroup.value.remarks.trim().length > 0) ? true : false;
-    // console.log('A', this.validRemark);
   }
 
 }

@@ -18,7 +18,6 @@ export class ExpenseService {
   }
  
   category(categoryDetail:any){
-    console.log('--in service data ',categoryDetail);
     this.expense.next(categoryDetail)
   }
 }

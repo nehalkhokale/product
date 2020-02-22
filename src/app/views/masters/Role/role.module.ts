@@ -6,8 +6,6 @@ import {RoleRoutingModule} from './role-routing.module';
 import { AppMaterialModule } from '../../../shared/modules/app-material.module';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-
-
 @NgModule({
   declarations: [
     ListRoleComponent,
