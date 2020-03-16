@@ -1,33 +1,23 @@
 <div class="mb-3">
     <div class="row mt-2">
-        <div class="offset-sm-2 col-sm-10">
-            <button mat-raised-button class="mr-2" (click)="setDate(0,'Day')">Day</button>
-            <button mat-raised-button class="mr-2" (click)="setDate(0,'Month')">Month</button>
-            <button mat-raised-button class="mr-2" (click)="setDate(0,'Year')">Year</button>
-            <label for="displaySelection">{{dateValue}}</label>
+        <div class="col-sm-4">
+            <label class="mr-2" for="displaySelection">{{dateValue}}</label>
         </div>
-        <!-- <div class="col-sm-3">
-            <button  mat-raised-button (click)="getExpenseChart('Month')" >Month</button>
+        <div class="col-sm-6">
+
+            <button mat-raised-button *ngFor="let item of selectionButtonArray"
+                [ngClass]="selection == item ? 'selected-button' :''" class="mr-2 text-capitalize"
+                (click)="setDate(0,item)">{{item}}</button>
         </div>
-        <div class="col-sm-3">
-            <button  mat-raised-button (click)="getExpenseChart('Year')" >Year</button>
-        </div> -->
-        <!-- <div class="col-sm-3">
-            <label for="displaySelection">{{dateValue}}</label>
-        </div> -->
-    </div>
-    <div class="row mt-2">
-        <div class="col-sm-12">
-            <button (click)="decrement()" mat-raised-button matTooltip="Previous">
-                <mat-icon class="fa fa-angle-left" aria-hidden="true"></mat-icon>
+        <div class="col-sm-2 text-right">
+            <button (click)="decrement()" color="primary" mat-mini-fab matTooltip="Previous">
+                <mat-icon class="fa fa-angle-left incremental-button" aria-hidden="true"></mat-icon>
             </button>
-            <button class="ml-2" (click)="increment()" mat-raised-button matTooltip="Next">
-                <mat-icon class="fa fa-angle-right" aria-hidden="true"></mat-icon>
+            <button class="ml-2" (click)="increment()" color="primary" mat-mini-fab matTooltip="Next">
+                <mat-icon class="fa fa-angle-right incremental-button" aria-hidden="true"></mat-icon>
             </button>
         </div>
     </div>
-    <!-- <div id="chartContainer" style="height: 370px; width: 100%;
-    margin-left:auto;margin-right:auto;"></div> -->
 </div>
 
 <div class="row" *ngIf="!displayChart">
@@ -38,7 +28,36 @@
     </div>
 </div>
 
-<div id="chart" *ngIf="displayChart">
-    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
-        [responsive]="chartOptions.responsive"></apx-chart>
+<mat-button-toggle-group appearance="legacy" [(ngModel)]="graphValue"
+    *ngIf="displayChart" class="pull-right" name="fontStyle" 
+    aria-label="Font Style">
+    <mat-button-toggle value="pie"> <mat-icon> pie_chart</mat-icon></mat-button-toggle>
+    <mat-button-toggle value="bar"><mat-icon class="rotate-90-deg"> bar_chart</mat-icon></mat-button-toggle>
+</mat-button-toggle-group>
+<br>
+<div class="row">
+    <div class="col-sm-12">
+        <div id="chart" *ngIf="displayChart && graphValue === 'pie'">
+            <apx-chart [series]="chartOptionsPie.series" [chart]="chartOptionsPie.chart" [labels]="chartOptionsPie.labels"
+                [responsive]="chartOptionsPie.responsive" ></apx-chart>
+        </div>
+          
+        <div id="bar" *ngIf="displayChart && graphValue === 'bar'">
+            <apx-chart
+                [series]="chartOptionsBar.series"
+                [chart]="chartOptionsBar.chart"
+                [stroke]="chartOptionsBar.stroke"
+                [colors]="chartOptionsBar.colors"
+                [plotOptions]="chartOptionsBar.plotOptions"
+                [yaxis]="chartOptionsBar.yaxis"
+                [xaxis]="chartOptionsBar.xaxis"
+                [tooltip]="chartOptionsBar.tooltip"
+                [title]="chartOptionsBar.title"
+                [subtitle]="chartOptionsBar.subtitle">
+            </apx-chart>
+                <!-- [title]="chartOptionsBar.title"
+                [subtitle]="chartOptionsBar.subtitle" -->
+            </div>
+    </div>
 </div>
+  

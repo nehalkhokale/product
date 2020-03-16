@@ -1,20 +1,59 @@
 import { Component, OnInit ,ViewChild} from '@angular/core';
 import * as CanvasJS from '../../../assets/canvasjs.min';
 import { HttpService } from '../../shared/services/http.service';
-import { ChartComponent } from "ng-apexcharts";
+// import { ChartComponent } from "ng-apexcharts";
 import { Router } from '@angular/router';
+// import {
+//   ApexNonAxisChartSeries,
+//   ApexResponsive,
+//   ApexChart
+// } from "ng-apexcharts";
 import {
   ApexNonAxisChartSeries,
+  ApexAxisChartSeries,
   ApexResponsive,
-  ApexChart
+  ApexChart,
+  ChartComponent,
+  ApexTitleSubtitle,
+  ApexDataLabels,
+  ApexStroke,
+  ApexYAxis,
+  ApexXAxis,
+  ApexPlotOptions,
+  ApexTooltip
 } from "ng-apexcharts";
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { log } from 'util';
 
 export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis;
+  tooltip: ApexTooltip;
+  colors: string[];
+  title: ApexTitleSubtitle;
+  subtitle: ApexTitleSubtitle;
+};
+export type ChartOptionsPie = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
   responsive: ApexResponsive[];
   labels: any;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis;
+  tooltip: ApexTooltip;
+  colors: string[];
+  title: ApexTitleSubtitle;
+  subtitle: ApexTitleSubtitle;
 };
 
 @Component({
@@ -25,6 +64,9 @@ export type ChartOptions = {
 export class DashboardComponent implements OnInit {
   @ViewChild("chart", {static: false}) chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  public chartOptionsBar: Partial<ChartOptions>;
+  public chartOptionsPie: Partial<ChartOptionsPie>;
+
   counter: number = 0;
   today: Date = new Date()
   // month: number = this.today.getMonth();
@@ -34,6 +76,8 @@ export class DashboardComponent implements OnInit {
   latestDay: Date;
   latestYear: Date;
   dateValue: any;
+  selectionButtonArray : string[] = ['day','month','year'];
+    
   constructor(
     private httpService: HttpService,
     private router: Router,
@@ -75,15 +119,99 @@ export class DashboardComponent implements OnInit {
         }
 
         let name = [];
-        let amount = []
+        let amount: number[] = [];
   
         result.filter((e) => {
           name = name.concat(e.name)
           amount = amount.concat(e.y)
         })
-        // console.log('name , amount',name,amount);
-        
-        this.chartOptions = {
+        console.log('name , amount',amount,name);
+        this.chartOptionsBar = {
+          series: [
+            {
+              data: amount
+            }
+          ],
+          chart: {
+            type: "bar",
+            height: 380,
+            toolbar:{
+              show:false
+            }
+          },
+          plotOptions: {
+            bar: {
+              barHeight: "100%",
+              distributed: true,
+              horizontal: true,
+              dataLabels: {
+                position: "bottom"
+              }
+            }
+          },
+          colors: [
+            "#33b2df",
+            "#546E7A",
+            "#d4526e",
+            "#13d8aa",
+            "#A5978B",
+            "#2b908f",
+            "#f9a3a4",
+            "#90ee7e",
+            "#f48024",
+            "#69d2e7"
+          ],
+          dataLabels: {
+            enabled: false,
+            textAnchor: "start",
+            style: {
+              colors: ["#fff"]
+            },
+            formatter: function(val, opt) {
+              return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val;
+            },
+            offsetX: 0,
+            dropShadow: {
+              enabled: true
+            }
+          },
+          stroke: {
+            width: 1,
+            colors: ["#fff"]
+          },
+          xaxis: {
+            categories: name
+          },
+          yaxis: {
+            labels: {
+              show: true
+            }
+          },
+          title: {
+            text: "",
+            align: "center",
+            floating: true
+          },
+          subtitle: {
+            text: "",
+            align: "center"
+          },
+          tooltip: {
+            theme: "dark",
+            x: {
+              show: true
+            },
+            y: {
+              title: {
+                formatter: function() {
+                  return "";
+                }
+              }
+            }
+          }
+        };
+    
+        this.chartOptionsPie = {
           series: amount,
           chart: {
             //categoryName:string,Date:Date
@@ -134,82 +262,7 @@ export class DashboardComponent implements OnInit {
 
   selection: string = 'day';
   selectionDate: Date;
-  // getExpenseChart(flag, counterResetFlag) {
-  //   try {
-  //   // this.selection = flag;
-  //   // var dt = this.selectionDate;
-  //   // console.log('this.selectionDate', this.selectionDate);     
-     
-      
-  //     // // console.log('--here in here ', typeof flag, flag == 'Day');
-  //     // if(counterResetFlag){
-  //     //   this.counter = 0
-  //     // }
-
-  //     // if (flag == 'Month') {
-
-  //     //   // dt.setMonth(dt.getMonth() + 2);
-  //     //   // console.log('--here-- Month');
-
-  //     //   /*
-  //     //   this.month = (this.latestDay) ? this.latestDay.getMonth() : (this.latestYear) ? this.latestYear.getMonth() : this.today.getMonth();
-  //     //   let currentYear = (this.latestDay) ? this.latestDay.getFullYear() : (this.latestYear) ? this.latestYear.getFullYear() : this.today.getFullYear();
-  //     //   this.latestMonth = new Date(currentYear, this.month + this.counter, 1);
-  //     //   this.year = this.latestMonth.getFullYear();
-  //     //   */
-  //     //   console.log('var latestMonth', this.latestMonth, ((this.month + this.counter).toString()));
-  //     //   var variableMonth = this.month + this.counter;
-  //     //   this.requestBody = {
-  //     //     "value": this.latestMonth.toString(),
-  //     //     "flag": "Month",
-  //     //     "year": this.year.toString(),
-  //     //     "month": variableMonth.toString()
-  //     //   }
-
-  //     //   const date = new Date(this.latestMonth);
-  //     //   this.dateValue = date.toLocaleString('default', { month: 'long' }) + ' - '+  this.year.toString();
-  //     // } else if (flag == 'Day') {
-  //     //   console.log('--here-- Day');
-  //     //   this.month = ( this.latestYear ) ? this.latestYear.getMonth() : ( this.latestMonth ) ? this.latestMonth.getMonth() : this.today.getMonth();
-  //     //   var currentYear = ( this.latestYear ) ? this.latestYear.getFullYear() : ( this.latestMonth ) ? this.latestMonth.getFullYear() : this.today.getFullYear();
-  //     //   let day = ( this.latestYear ) ? this.latestYear.getDate() : ( this.latestMonth ) ? this.latestMonth.getDate() :this.today.getDate();
-  //     //   this.latestDay = new Date(currentYear, this.month, day + this.counter);;
-  //     //   this.year = this.latestDay.getFullYear();
-  //     //   console.log('--latestDay', this.latestDay,this.year);
-  //     //   this.requestBody = {
-  //     //     "value": this.latestDay.toString(),
-  //     //     "flag": "Day",
-  //     //     "year": this.year.toString(),
-  //     //     "month": this.month.toString()
-  //     //   }
-  //     //   // this.dateValue = this.latestDay;
-  //     //   this.dateValue = this.latestDay.toLocaleString('default', { weekday: 'long' }) + ', ' 
-  //     //     + this.latestDay.getDate() + ' - ' 
-  //     //     + this.latestDay.toLocaleString('default', { month: 'long' }) + '-' + this.year.toString();
-
-  //     // } else if (flag == 'Year') {
-  //     //   console.log('--here-- Year',this.latestDay,this.latestMonth );
-  //     //   var currentYear =  ( this.latestMonth ) ? this.latestMonth.getFullYear() : (this.latestDay) ? this.latestDay.getFullYear()  : this.today.getFullYear();
-  //     //   this.month =   ( this.latestMonth ) ? this.latestMonth.getMonth() : (this.latestDay) ? this.latestDay.getMonth()   : this.today.getMonth();
-  //     //   var day =  ( this.latestMonth ) ? this.latestMonth.getDate() : (this.latestDay) ? this.latestDay.getDate()   : this.today.getDate();
-  //     //   this.latestYear = new Date(currentYear + this.counter, this.month, day);
-  //     //   this.year = this.latestYear.getFullYear();
-  //     //   this.requestBody = {
-  //     //     "value": this.latestYear.toString(),
-  //     //     "flag": "Year",
-  //     //     "year": ((this.year).toString()),
-  //     //     "month": this.month.toString()
-  //     //   }
-  //     //   this.dateValue=  this.year,
-  //     //   console.log('--latestYear', this.latestYear);
-  //     // }
-  //     // console.log('--Day this.requestBody', this.requestBody, this.dateValue);
-  //     // this.expenseChart();
-  //   } catch (e) {
-  //     console.log(e);
-  //     this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
-  //   }
-  // }
+  
 
   increment() {
     try{
@@ -244,12 +297,12 @@ export class DashboardComponent implements OnInit {
       this.dateValue=  dt.getFullYear().toString()
     }else if (selection === 'month'){
       dt.setMonth(dt.getMonth() + value);
-        this.dateValue = dt.toLocaleString('default', { month: 'long' }) + ' - '+  dt.getFullYear().toString();
+        this.dateValue = dt.toLocaleString('default', { month: 'long' }) + ' '+  dt.getFullYear().toString();
     }else if(selection === 'day'){
       dt.setDate(dt.getDate() + value);
       this.dateValue = dt.toLocaleString('default', { weekday: 'long' }) + ', ' 
-          + dt.getDate() + ' - ' 
-          + dt.toLocaleString('default', { month: 'long' }) + '-' + dt.getFullYear().toString();
+          + dt.getDate() + ' ' 
+          + dt.toLocaleString('default', { month: 'long' }) + ' ' + dt.getFullYear().toString();
     }
     this.requestBody = {
       "value": this.selectionDate.toString(),
@@ -283,4 +336,19 @@ export class DashboardComponent implements OnInit {
   //  myDate :Date =new Date();
   //  isOpen:Boolean =false
 
+  graphValue: string = "pie";
+  graphSelection(graphType: string){
+    try {
+      console.log('graphType', graphType);
+      this.graphValue = graphType;
+      // this.graphValue = event.target.innerText === 'bar_chart' ? 'bar' 
+      //   : (event.srcElement.innerText === 'pie_chart' ? 'pie' : '');
+      console.log('this.graphValue', this.graphValue);
+      // this.chartOptions = value === "bar" ? this.chartOptionsBar : this.chartOptionsPie
+    } catch (e) {
+      
+    }
+  }
+
 }
+ 

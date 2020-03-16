@@ -10,12 +10,13 @@ import { EditExpenseComponent } from './views/Expenses/edit-expense/edit-expense
 // import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { AddSubcategoryComponent } from './views/Expenses/add-subcategory/add-subcategory.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
-
+import{BudgetComponent} from './views/budget/budget.component';
 const routes: Routes = [
   // {path: 'disable', component: DisablecontroldirectiveDirective },
   { path: '', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'expense', component: EditExpenseComponent },
+  { path: 'budget', component: BudgetComponent },
   { path: 'expense/addsubcategory', component: AddSubcategoryComponent, canActivate: [AuthGuard] },
   { path: 'expense/editexpense', component: EditExpenseCategoryComponent },
   // {path: 'expense/addsubcategory', component: AddSubcategoryComponent, canActivate:[AuthGuard] },

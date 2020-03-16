@@ -9,7 +9,6 @@
     </button>
   </div>
 </div>
-<p>{{userForm.status}}</p>
 <div class="row mt-4">
   <div class="offset-sm-2 col-sm-8">
     <mat-card>
@@ -19,7 +18,7 @@
           <div class="row">
             <div class="col-sm-6">
               <mat-form-field class="example-full-width">
-                <input matInput formControlName="firstName" placeholder="First name">
+                <input matInput formControlName="firstName" placeholder="First name" required>
                   <mat-error class="error-message" *ngIf="userForm.get('firstName').hasError ('required')
                       && (userForm.get('firstName').dirty || 
                       userForm.get('firstName').touched)">
@@ -29,7 +28,7 @@
             </div>
             <div class="col-sm-6">
               <mat-form-field class="example-full-width">
-                <input matInput formControlName="lastName" placeholder="Last name">
+                <input matInput formControlName="lastName" placeholder="Last name" required>
                 <mat-error class="error-message" *ngIf="userForm.get('lastName').hasError
                     && (userForm.get('lastName').dirty || userForm.get('lastName').touched)">
                   Last name is required
@@ -45,7 +44,7 @@
                   <mat-error class="error-message"
                     *ngIf="userForm.get('role').hasError('required') && (userForm.get('role').dirty || userForm.get('role').touched)">
                    Role is required</mat-error>
-                <mat-select formControlName="role" placeholder="Role">
+                <mat-select formControlName="role" placeholder="Role" required>
                   <mat-option *ngFor="let role of list_role" [value]="role._id">
                     {{role.name}}
                   </mat-option>
@@ -82,7 +81,7 @@
                   *ngIf="userForm.get('email').hasError('pattern') && (userForm.get('email').dirty || userForm.get('email').touched)">
                   pattern</mat-error>
                 <!-- </mat-error> -->
-                <input matInput formControlName="email" placeholder="e.g. some@domain.com">
+                <input matInput formControlName="email" placeholder="e.g. some@domain.com" required>
               </mat-form-field>
               <!-- {{userForm.get('email').hasError ? 'Yes': 'No'}} -->
 
@@ -101,7 +100,7 @@
                     *ngIf="userForm.get('mobile').hasError('pattern') && (userForm.get('mobile').dirty || userForm.get('mobile').touched)">
                     Mobile should be 10 digits </mat-error>
                     
-                <input matInput formControlName="mobile" placeholder="Mobile number" type="number" >
+                <input matInput formControlName="mobile" placeholder="Mobile number" type="number" required>
                 
               </mat-form-field>
             </div>
@@ -111,7 +110,7 @@
                   <mat-error class="error-message"
                     *ngIf="userForm.get('gender').hasError('required') && (userForm.get('gender').dirty || userForm.get('gender').touched)">
                    Gender required</mat-error>
-                <mat-select matInput formControlName="gender" placeholder="Gender">
+                <mat-select matInput formControlName="gender" placeholder="Gender" required>
                   <mat-option value=" Female">
                     Female
                   </mat-option>

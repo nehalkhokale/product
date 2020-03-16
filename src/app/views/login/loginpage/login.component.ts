@@ -42,7 +42,9 @@ export class LoginComponent implements OnInit {
       try {
         this.httpService.post('user/login', data).subscribe((res: any) => {
           if (res.success) {
-            sessionStorage.setItem('Token', JSON.stringify(res.token));
+            sessionStorage.setItem('Token', JSON.stringify(res.data.token));
+            sessionStorage.setItem('userDetails', JSON.stringify(res.data));
+
             this.authGuardService.login()
             // this.router.navigate(['category/list-category', { action: 'add' }])
 

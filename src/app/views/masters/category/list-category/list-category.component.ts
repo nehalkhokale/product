@@ -59,32 +59,41 @@ export class ListCategoryComponent implements OnInit {
   }
   
   deleteCategory(categoryId:Number){
-    this.httpService.get(`categorybyid/${categoryId}`).subscribe((res:any)=>{
-      this.dialogData = {
-        dialogHeader : categoryId + "category",
-        dialogMessage : "",
-        dialogAcceptBtn : "Yes",
-        dialogRejecteBtn : "No",
-        dailogTerm : res.data.category + ' '+ 'category',
-        dailogRoute:'list-category',
-       
-     }
-    
-      let dailogBox = this.MatDialog.open(DialogserviceComponent, {
-        data: this.dialogData
-      });
-      dailogBox.afterClosed().subscribe(value => {
-        let remarks = value.remarks
-        if(value.accept){
-          this.httpService.put(`deletecategory/${categoryId}`,remarks).subscribe((res:any)=>{
-            this.ngOnInit()
-          })
-        }
-        
+    try {
+      this.httpService.get(`categorybyid/${categoryId}`).subscribe((res:any) => {
+        this.dialogData = {
+          dialogHeader : categoryId + "category",
+          dialogMessage : "",
+          dialogAcceptBtn : "Yes",
+          dialogRejecteBtn : "No",
+          dailogTerm : res.data.category + ' '+ 'category',
+          dailogRoute:'list-category',
+         
+       }
+      
+        let dailogBox = this.MatDialog.open(DialogserviceComponent, {
+          data: this.dialogData,
+          disableClose:true,
+        });
+        dailogBox.afterClosed().subscribe(value => {
+         
+          if(value && value.accept){
+            let remarks = value.remarks;
+            this.httpService.put(`deletecategory/${categoryId}`,remarks).subscribe((res:any)=>{
+              this.ngOnInit()
+            })
+          }
+          
+        })
+      }, (err: any) => {
+        this.snackBar.openSnackBar(err.statusText, 'Close', 'red-snackbar');
+  
       })
-    })
+    } catch (e) {
+     this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
+      
+    }
     
-    // alert('Delete category');
   }
 
 }

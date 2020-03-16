@@ -28,6 +28,7 @@ import { EditExpenseCategoryComponent } from './views/Expenses/edit-expense-cate
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 // import { DisablecontroldirectiveDirective } from './shared/services/disablecontroldirective.directive';
 import { NgApexchartsModule } from "ng-apexcharts";
+import { BudgetComponent } from './views/budget/budget.component';
 
 @NgModule({
   entryComponents:[
@@ -50,6 +51,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     AddSubcategoryComponent,
     EditExpenseCategoryComponent,
     DashboardComponent,
+    BudgetComponent,
     // DisablecontroldirectiveDirective,
     
 

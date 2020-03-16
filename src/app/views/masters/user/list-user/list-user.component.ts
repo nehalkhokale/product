@@ -62,9 +62,10 @@ export class ListUserComponent implements OnInit {
     });
 
     dailogBox.afterClosed().subscribe(value => {
-      let remarks = value.remarks;
-      console.log('--value', value);
-      if (value.accept) {
+     
+      // console.log('--value', value);
+      if (value && value.accept) {
+        let remarks = value.remarks;
         this.httpService.put(`deleteuser/${ele._id}`, remarks).subscribe((res: any) => {
           this.ngOnInit()
         })

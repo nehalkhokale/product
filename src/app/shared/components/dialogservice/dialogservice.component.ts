@@ -16,7 +16,7 @@ export class DialogserviceComponent implements OnInit {
   dialogHeader = "";
   dialogMessage = "";
   dialogAcceptBtn = "Yes";
-  dialogRejecteBtn = "No";
+  dialogRejectBtn = "No";
   dailogTerm = ""
 
   constructor(
@@ -25,7 +25,7 @@ export class DialogserviceComponent implements OnInit {
     private masterService: MasterService,
     public dialogRef: MatDialogRef<DialogserviceComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-
+    dialogRef.disableClose = true;
   }
 
   remaksGroup: FormGroup;

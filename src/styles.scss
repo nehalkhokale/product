@@ -20,6 +20,11 @@ mat-icon {
   cursor: pointer;
 }
 
+/* To hide table labels when navbar is open */
+.mat-table-sticky {
+  z-index: 0 !important;
+}
+
 /* Material element CSS */
 th.mat-header-cell {
   font-size: 110%;

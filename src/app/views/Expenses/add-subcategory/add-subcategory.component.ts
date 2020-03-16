@@ -29,6 +29,7 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
   date: Date;
   actionValue: String;
   subcategory_list: Category[] = []
+  dateSelection = new FormControl(new Date());
   // subcategory_list: any;
   category_list: any = []
   subCategoryForm: FormGroup;
@@ -51,7 +52,7 @@ export class AddSubcategoryComponent implements OnInit, OnDestroy {
     this.expenseService.categoryDetails().subscribe((data) => {
     });
     this.getCategory({accept:false})
-
+    
   }
   addEvent(event: MatDatepickerInputEvent<Date>) {
 

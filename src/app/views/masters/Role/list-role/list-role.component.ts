@@ -65,8 +65,8 @@ export class ListRoleComponent implements OnInit {
         data: this.dialogData
       });
       dailogBox.afterClosed().subscribe(value => {
-        let remarks = value.remarks
-        if(value.accept){
+        if(value && value.accept){
+          let remarks = value.remarks
           this.httpService.put(`deleterole/${userId}`,remarks).subscribe((res:any)=>{
             // console.log('after deleting res',res);
             this.ngOnInit()

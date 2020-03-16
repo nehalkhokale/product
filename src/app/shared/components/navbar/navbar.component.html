@@ -1,44 +1,48 @@
 <!-- *ngIf="isLoggedIn$ | async as isLoggedIn" -->
 <mat-toolbar color="primary" *ngIf="isLoggedIn$ | async as isLoggedIn">
     <mat-toolbar-row>
-        <button mat-icon-button class="col-sm-1" (click)="sidenav.toggle()"
+        <button mat-icon-button class="col-sm-1" (click)="openNav()"
             style="font-size:30px;cursor:pointer"> <mat-icon>menu</mat-icon>
         </button>
         <span class="col-sm-3 clickable" [routerLink]="['/dashboard']"
             routerLinkActive="router-link-active">
             Expense Tracker
         </span>
+        
         <span class="example-spacer"></span>
         <button class="offset-sm-2 col-sm-3 example-icon" (click)=" getCategory()" 
-            mat-raised-button>Add Expense</button>
-        <button class="col-sm-3 ml-2 example-icon" color="warm" (click)="logout()" 
-            mat-raised-button>Logout</button>
+            mat-stroked-button>Add Expense</button>
+        <!-- <button class="col-sm-3 ml-2 example-icon" color="warm" (click)="logout()" 
+            mat-raised-button>Logout</button> -->
+            <button mat-button [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon></button>
+            <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="userDetail()">Profile</button>
+            <button (click)="resetpassword()" mat-menu-item>Reset password</button>
+            <button (click)="logout()" mat-menu-item>Logout</button>
+            </mat-menu>
     </mat-toolbar-row>
+    
 </mat-toolbar>
-<mat-sidenav-container fxFlexFill>
-    <mat-sidenav #sidenav>
-        <mat-nav-list (click)="sidenav.toggle()" style="font-size:30px; cursor:pointer">
-            <mat-toolbar-row>
-                <a routerLink="category" mat-button>Category </a>
-            </mat-toolbar-row>
-            <mat-toolbar-row>
-                <a routerLink="user" mat-button>User</a>
-            </mat-toolbar-row>
-            <mat-toolbar-row>
-                <a routerLink="role" mat-button>Role</a>
-            </mat-toolbar-row>
-        </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <div class="container">
-            <router-outlet></router-outlet>
-        </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
-
-<!-- <div class="container">
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+    <a (click)="navigate('category')" mat-button>Category </a>
+    <a (click)="navigate('user')"  mat-button>User</a>
+    <a (click)="navigate('role')" mat-button>Role</a>
+  </div>
+  <div  id="list" class="sidenav">
+    <!-- <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a> -->
+    <!-- <a mat-button>Category-- </a>
+    <a mat-button>User --</a>
+    <a mat-button>Role --</a> --> 
+    <mat-select placeholder="Profile">
+        <mat-option *ngFor="let item of list">
+          {{item}}
+        </mat-option>
+      </mat-select>
+</div>
+<div class="container">
   <router-outlet></router-outlet>
-</div> -->
+</div>
 
 <!-- <div *ngIf="isLoggedIn$ | async as isLoggedIn">
     <div>

@@ -1,7 +1,7 @@
-<!-- Date picker -->
+<!-- Date picker (dateInput)="addEvent( $event)"-->
 <div class="row">
   <mat-form-field class="offset-sm-8 col-sm-4">
-    <input matInput [matDatepicker]="dp" placeholder="Expense Date" (dateInput)="addEvent( $event)"
+    <input matInput [matDatepicker]="dp" placeholder="Expense Date"[formControl]="dateSelection" 
       (dateChange)="addEvent( $event)" required>
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>
@@ -12,15 +12,24 @@
     <mat-datepicker #picker1></mat-datepicker>
   </mat-form-field> -->
 </div>
-
-<!-- Category section -->
-<div class="row">
-  <div class="col-sm-2 mb-3 text-center" *ngFor="let category of category_list">
-    <mat-card [value]="category._id" (click)="getSubcategory(category._id)">
-      <p>{{category.category}}</p>
-    </mat-card>
-  </div>
+<div class="scroll-container pb-2">
+  <mat-card class="category-card ml-2 text-center" *ngFor="let category of category_list" 
+      (click)="getSubcategory(category._id)">
+      {{category.category | slice: 0: 9}}<br>{{category.category | slice: 9: 30}}
+  </mat-card>
 </div>
+<!-- Category section  col-sm-2 mb-3 text-center -->
+<!-- <div class="card-container"> -->
+  <!-- <div class="category-card text-center" *ngFor="let category of category_list"> -->
+    <!-- <mat-card class="category-card text-center" *ngFor="let category of category_list" [value]="category._id" (click)="getSubcategory(category._id)">
+      <p>{{category.category}}</p>
+    </mat-card> -->
+    <!-- <span class="category-card text-center" *ngFor="let category of category_list" 
+      (click)="getSubcategory(category._id)">
+      <p>{{category.category}}</p>
+    </span> -->
+  <!-- </div> -->
+<!-- </div> -->
 
 <!-- Subcategory accordion -->
 <div class="row subcategory-section">

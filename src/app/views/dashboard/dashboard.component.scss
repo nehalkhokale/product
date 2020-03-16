@@ -1,6 +1,21 @@
 #chart {
-    max-width: 520px;
-    margin: 35px auto;
-    padding: 0;
-  }
-  
+  max-width: 520px;
+  margin: 35px auto;
+  padding: 0;
+}
+
+.incremental-button {
+  font-size: 19px;
+}
+
+.selected-button {
+  border: 2px solid #3f51b5;
+}
+
+.rotate-90-deg {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}

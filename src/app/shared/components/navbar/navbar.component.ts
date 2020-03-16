@@ -12,8 +12,9 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
   list_category: Category[] = [];
+  userDetails: any;
   isLoggedIn$: Observable<boolean>;
-
+  list : any =['Change password','Profile']
   constructor( private masterService: MasterService,private router: Router
     ,private snackBar: SnackbarService ,private authService:AuthGuardService,
     private cdr:ChangeDetectorRef) { }
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.cdr.detectChanges()
+    this.userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     // this.getCategory()
   }
 
@@ -29,5 +31,27 @@ export class NavbarComponent implements OnInit {
   }
   logout(){
     this.authService.logout();
+  }
+  openNav() {
+    document.getElementById("mySidenav").style.width = "100%";
+  }
+  profile() {
+    console.log('---here');
+    
+    document.getElementById("list").style.width = "50%";
+  }
+  userDetail(){
+    this.router.navigate(['user/save-user', { action: 'edit', Id:this.userDetails._id }]);
+  }
+  resetpassword(){
+    this.router.navigate(['resetpassword', { action: 'edit', Id: this.userDetails._id}]);
+  }
+  closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("list").style.width = "0";
+  }
+  navigate(path:string){
+    this.closeNav();
+    this.router.navigate([path]);
   }
 }
