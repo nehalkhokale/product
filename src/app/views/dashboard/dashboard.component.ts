@@ -137,7 +137,13 @@ export class DashboardComponent implements OnInit {
             height: 380,
             toolbar:{
               show:false
-            }
+            },
+            events:{
+              dataPointSelection: (event,chartContext,config) => {
+                let catergoryName=config.w.config.xaxis.categories[config.dataPointIndex]
+                this.editExpense(catergoryName,this.requestBody)
+              }
+            },
           },
           plotOptions: {
             bar: {
@@ -217,10 +223,7 @@ export class DashboardComponent implements OnInit {
             //categoryName:string,Date:Date
             events:{
               dataPointSelection: (event,chartContext,config) => {
-                // console.log('--config',config);
-                let catergoryName=config.w.config.labels[config.dataPointIndex]
-                // console.log('---------catergoryName',catergoryName);
-                
+                let catergoryName=config.w.config[config.dataPointIndex]
                 this.editExpense(catergoryName,this.requestBody)
               }
             },

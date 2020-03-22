@@ -22,7 +22,9 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.cdr.detectChanges()
-    this.userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    // this.userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    console.log(' this.userDetails', this.userDetails);
+    
     // this.getCategory()
   }
 
@@ -41,9 +43,11 @@ export class NavbarComponent implements OnInit {
     document.getElementById("list").style.width = "50%";
   }
   userDetail(){
+    this.userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     this.router.navigate(['user/save-user', { action: 'edit', Id:this.userDetails._id }]);
   }
   resetpassword(){
+    this.userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     this.router.navigate(['resetpassword', { action: 'edit', Id: this.userDetails._id}]);
   }
   closeNav() {

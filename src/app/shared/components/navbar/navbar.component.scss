@@ -1,6 +1,6 @@
 mat-toolbar {
-  position: sticky;
-  position: -webkit-sticky; /* For macOS/iOS Safari */
+  position: fixed;
+  position: -webkit-fixed; /* For macOS/iOS Safari */
   top: 0; /* Sets the sticky toolbar to be on top */
   z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
 }
@@ -16,7 +16,7 @@ mat-toolbar {
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 1 !important;
+  z-index: 1000 !important;
   top: 0;
   left: 0;
   background-color: #111;
@@ -58,4 +58,7 @@ mat-toolbar {
 
 .example-spacer {
   flex: 1 1 auto;
+}
+.body-container{
+  padding-top: 70px !important
 }
