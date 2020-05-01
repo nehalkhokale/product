@@ -21,7 +21,9 @@ export class ListUserComponent implements OnInit {
   displayedColumns: string[] = ['userName', 'role', 'email', 'gender', 'mobile', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private httpService: HttpService, private router: Router, private MatDialog: MatDialog) { }
+  constructor(private httpService: HttpService, private router: Router,
+     private MatDialog: MatDialog,
+    ) { }
 
   ngOnInit() {
     this.httpService.get('userlist').subscribe((res: any) => {
@@ -43,7 +45,7 @@ export class ListUserComponent implements OnInit {
   }
 
   editUser(ele: User) {
-    this.router.navigate(['user/save-user', { action: 'edit', Id: ele._id }])
+    this.router.navigate(['user/save-user', { action: 'edit', Id: ele._id ,isProfile:false}])
   }
 
   deleteUser(ele: User) {

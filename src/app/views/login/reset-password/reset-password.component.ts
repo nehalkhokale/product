@@ -11,7 +11,9 @@ import { Router } from '@angular/router';
 export class ResetPasswordComponent implements OnInit {
   resetForm: FormGroup;
   constructor(private httpService: HttpService, private snackBar: SnackbarService, private router: Router) { }
-
+  hide = true;
+  hideNew = true;
+  hideConfirm = true
   ngOnInit() {
     this.resetForm = new FormGroup({
       // email: new FormControl('', Validators.required),

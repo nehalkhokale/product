@@ -3,7 +3,7 @@
         <mat-card>
             <div class="row">
                 <div class="mt-4 col-sm-12">
-                    <h4>Buget</h4>
+                    <h4>Budget</h4>
                 </div>
                 <div class="mt-2 col-sm-12">
             
@@ -14,23 +14,23 @@
                 <div class="row">
                     <div class="col-md-12">
                         <label class="mt-2 ">Select Period </label><br>
-                        <button mat-raised-button *ngFor="let item of selectionButtonArray"
-                            [ngClass]="selection == item ? 'selected-button' :''" class="mr-2 text-capitalize"
-                            (click)="setPeriod(item)">{{item}}</button>
+                        <mat-button-toggle-group  formControlName="type" >
+                            <mat-button-toggle *ngFor="let item of selectionButtonArray" [value]="item">{{item}}</mat-button-toggle>
+                        </mat-button-toggle-group>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 mt-2 ">
                         <mat-form-field>
-                            <input matInput placeholder="value" formControlName="value" required>
+                            <input matInput type ="number"placeholder="Budget Amount" formControlName="value" required>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <label>firstTrigger</label><br>
-                        <mat-slider class="example-margin" [step]=5 thumbLabel  min="5" max="100"
-                            formControlName="firstTrigger" required>
+                        <label>First Trigger</label><br>
+                        <mat-slider class="example-margin" [step]=5 thumbLabel  min="10" max="90"
+                            formControlName="firstTrigger" required >
                         </mat-slider>
                         <label>
                             {{budgetForm.get('firstTrigger').value}}
@@ -40,9 +40,10 @@
                 <mat-hint class="text-danger">Note: minimum 10% in mandatory </mat-hint>
                 <div class="row">
                     <div class="col-md-12">
-                        <label>lastTrigger</label> <br>
-                        <mat-slider class="example-margin" [step]=5 thumbLabel [(ngModel)]="lastTriggerValue" min="5" max="100"
-                            formControlName="lastTrigger">
+                        <label>Last Trigger</label> <br>
+                        <mat-slider class="example-margin" [step]=5 thumbLabel [(ngModel)]="lastTriggerValue"
+                         [min]="budgetForm.get('firstTrigger').value" max="90"  [thumbLabel]='true'
+                            formControlName="lastTrigger" (change)="lastTriggerChange($event)">
                         </mat-slider>
                         <label>
                             {{budgetForm.get('lastTrigger').value}}
@@ -51,10 +52,11 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <!-- <button type="button" mat-raised-button class="btn btn-block col-sm-2 mr-3"
-                            (click)="ngOnInit()">RESET</button> -->
-                        <button type="submit" (click)=" onSave()" mat-raised-button class="btn btn-block col-sm-2" color="primary">
-                            SAVE
+                        <button type="button" mat-raised-button class="btn btn-block col-sm-2 mr-3"
+                            (click)="ngOnInit()">RESET</button>
+                        <button type="submit" (click)=" onSave()" routerLink="/dashboard" mat-raised-button class="btn btn-block col-sm-2" color="primary"
+                            [disabled]="(budgetForm.invalid || !budgetForm.dirty) || showLoading">
+                          SAVE
                             <i class="fas fa-spinner ml-2" *ngIf="showLoading"></i>
                         </button>
                     </div>

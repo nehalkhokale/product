@@ -2,14 +2,16 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import {  Router, ActivatedRoute } from '@angular/router';
+import {  ActivatedRoute } from '@angular/router';
 import { SnackbarService } from '../../../../shared/services/snackbar.service'
 import { MasterService } from '../../../../shared/services/master.service'
 import { HttpService } from '../../../../shared/services/http.service';
 import { Role } from '../../../../shared/models/role.model';
-import{User} from '../../../../shared/models/user.model'
+import { User } from '../../../../shared/models/user.model'
 import { StorageService } from '../../../../shared/services/storage.service';
-
+import { environment } from 'src/environments/environment';
+import {ExpenseService} from 'src/app/shared/services/expense.service'
+import { Observable } from 'rxjs';
 const ELEMENT_DATA: User[] = [];
 
 @Component({
@@ -28,26 +30,51 @@ export class SaveUserComponent implements OnInit {
     remarks: {},
     mobile: '',
   };
+  profileEvent$: Observable<boolean>;
+  selectedFileDetail$:string;
   userId: Number;
   actionValue: String;
   userForm: FormGroup;
-  numberValidator:boolean;
+  numberValidator: boolean;
+  profileUrl: any;
+  isProfile: string = "false";
+  profileValue: boolean = false;
+  profileChangeEvent: boolean = false;
   constructor(
+    
     private httpService: HttpService,
     private router: ActivatedRoute,
     private location: Location,
     private masterService: MasterService,
-    private snackBar: SnackbarService
-  ) { }
+    private snackBar: SnackbarService,
+    private http: HttpClient,
+    private expenseService :ExpenseService
+  ) {
+  }
 
   ngOnInit() {
+    this.expenseService.profileEvent$.subscribe((res)=>{
+      this.profileEvent$ = res.profileEvent
+      this.selectedFileDetail$=res.selectedFile
+      // this.onUpload()
+    })
     this.initializeForm();
     this.getRole();
     this.router.params.subscribe(params => {
       this.userId = params['Id'];
       this.actionValue = params['action'];
+      this.isProfile = params['isProfile'];
+
       if (this.actionValue === "edit") {
         this.getUser();
+        
+      }
+
+      if (this.isProfile == "true") {
+        this.profileValue = true
+
+      } else {
+        this.profileValue = false
       }
     });
   }
@@ -57,85 +84,42 @@ export class SaveUserComponent implements OnInit {
       lastName: new FormControl('', Validators.required),
       gender: new FormControl(''),
       email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
-      mobile: new FormControl('', [Validators.required,Validators.pattern('^[0-9]{10}$')]),
+      mobile: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
       role: new FormControl('', Validators.required),
 
     });
   }
-  
-  mobileInputs:any=[]
+  selectedFile: File = null;
+  mobileInputs: any = []
   showLoading: boolean = false;
-  isNumberKey(evt:any)
-  {
-    //  var charCode = (evt.which) ? evt.which : evt.keyCode;
-    //  console.log('here bhai');
-     
-     if (evt.keyCode != 46 && evt.keyCode > 31 
-       && (evt.keyCode < 48 || evt.keyCode > 57))
-        return false;
+  userInitials: string;
+  isNumberKey(evt: any) {
+    if (evt.keyCode != 46 && evt.keyCode > 31
+      && (evt.keyCode < 48 || evt.keyCode > 57))
+      return false;
 
-     return true;
+    return true;
   }
   onSave() {
-    this.showLoading = true;
-    let data = this.userForm.value;
-    data.name = {
-      firstName: data.firstName,
-      lastName: data.lastName,
-    }
-    this.url =(this.actionValue === 'add')?"createuser" :`updateuser/${this.userId}`
-    this.masterService.onAddButton(this.actionValue,data,this.url)
-    // if (this.actionValue === 'add') {
-    //   try {
-    //     this.httpService.post("createuser", data).subscribe((res: any) => {
-    //       this.showLoading = false;
-    //       if (res.success) {
-    //         this.snackBar.openSnackBar(res.message, 'Close', 'green-snackbar')
-    //         this.location.back();
-    //       }
-    //       else {
-    //         this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
-    //       }
-    //     },
-    //       (err: any) => {
-    //         this.showLoading = false;
-    //         this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
-    //       }
+    console.log('--profileEvent$',this.profileEvent$);
+    if ((this.userForm.valid && this.userForm.dirty)) {
+      this.showLoading = true;
+      let data = this.userForm.value;
+      data.name = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+      }
+      this.url = (this.actionValue === 'add') ? "createuser" : `updateuser/${this.userId}`
+      this.masterService.onAddButton(this.actionValue, data, this.url)
 
-    //     );
-    //   }
-    //   catch (e) {
-    //     this.showLoading = false;
-    //     this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
-    //   }
-    // } else {
-    //   try {
-    //     this.httpService
-    //       .put(`updateuser/${this.userId}`, data)
-    //       .subscribe((res: any) => {
-    //         this.showLoading = false;
-    //         if (res.success) {
-    //           this.snackBar.openSnackBar(res.message, 'Close', 'green-snackbar')
-    //           this.location.back();
-    //         }
-    //         else {
-    //           this.snackBar.openSnackBar(res.message, 'Close', 'red-snackbar');
-    //         }
-    //       },
-    //         (err: any) => {
-    //           this.showLoading = false;
-    //           this.snackBar.openSnackBar(err.error.message, 'Close', 'red-snackbar');
-    //         }
-    //       );
-    //   }
-    //   catch (e) {
-    //     this.showLoading = false;
-    //     this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
-    //   }
-    // }
+    }
+    if (this.profileEvent$) {
+      this.onUpload()
+    }
+
   }
 
-  getRole(){
+  getRole() {
     this.masterService.getRoleList().subscribe((res: any) => {
       this.list_role = res.data;
     }, (err: any) => {
@@ -148,12 +132,16 @@ export class SaveUserComponent implements OnInit {
     try {
       this.httpService.get(`userbyid/${this.userId}`).subscribe((res: any) => {
         this.userObj = res.data
+        this.expenseService.emitValueObject({
+          userObj:this.userObj,
+          pageIndicator:true
+         })
         this.userForm = new FormGroup({
           firstName: new FormControl(this.userObj.name.firstName, Validators.required),
           lastName: new FormControl(this.userObj.name.lastName, Validators.required),
           gender: new FormControl(this.userObj.gender),
           email: new FormControl(this.userObj.email, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
-          mobile: new FormControl(this.userObj.mobile,[Validators.required,Validators.pattern('^[0-9]{10}$')]),
+          mobile: new FormControl(this.userObj.mobile, [Validators.required, Validators.pattern('^[0-9]{10}$')]),
           role: new FormControl(this.userObj.role, Validators.required),
         });
       },
@@ -166,5 +154,11 @@ export class SaveUserComponent implements OnInit {
       this.snackBar.openSnackBar(e, 'Close', 'red-snackbar');
     }
   }
- 
+  onUpload() {
+    const fd = new FormData()
+    fd.append('userImage', this.selectedFileDetail$)
+    this.httpService.post('image', fd).subscribe((res: any) => {
+      this.location.back();
+    })
+  }
 }

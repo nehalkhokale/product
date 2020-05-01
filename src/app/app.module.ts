@@ -29,7 +29,9 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 // import { DisablecontroldirectiveDirective } from './shared/services/disablecontroldirective.directive';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { BudgetComponent } from './views/budget/budget.component';
-
+// import { UserModule } from 'src/app/views/masters/user/user.module';
+// import { ProfileImageComponent } from 'src/app/shared/components/profileImage/profile-image/profile-image.component';
+import{commons} from 'src/app/commons.module'
 @NgModule({
   entryComponents:[
     DialogserviceComponent,
@@ -52,14 +54,13 @@ import { BudgetComponent } from './views/budget/budget.component';
     EditExpenseCategoryComponent,
     DashboardComponent,
     BudgetComponent,
-    // DisablecontroldirectiveDirective,
-    
-
+    // ProfileImageComponent
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA
   ],
   imports: [
+    // UserModule,
     BrowserModule,
     NgApexchartsModule,
     HttpClientModule,
@@ -68,7 +69,11 @@ import { BudgetComponent } from './views/budget/budget.component';
     ReactiveFormsModule,
     AppMaterialModule,
     BrowserAnimationsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    commons
+  ],
+  exports:[
+    // ProfileImageComponent
   ],
   providers: [
     {

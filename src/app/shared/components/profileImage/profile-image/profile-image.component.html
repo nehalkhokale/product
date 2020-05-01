@@ -1,0 +1,13 @@
+<!-- <div class="parent" > -->
+  <div [ngClass]="(pageIndicator) ?'parent':'img'">
+    <div class="child text-uppercase" *ngIf="!profileUrl">
+      {{userInitials}}
+    </div>
+    <img  [ngClass]="(pageIndicator) ?'img-fluid rounded':'imgchild'" src={{profileUrl}} alt="ProfileImage" max-width="304" max-height="236px" >
+
+    <!-- <img class="img-fluid rounded" *ngIf="profileUrl" src={{profileUrl}} alt="ProfileImage" max-width="304" max-height="236px" > -->
+  </div>
+    <input name="ProfileImage" style="visibility: hidden;" type="file" (change)="onFileSelection($event)" #imageSelector>
+    <label *ngIf="pageIndicator" (click)="imageSelector.click()">
+      Choose File
+    </label>

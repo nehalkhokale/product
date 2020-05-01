@@ -8,17 +8,20 @@
             routerLinkActive="router-link-active">
             Expense Tracker
         </span>
-        
+        <!-- <button (click)="test()" mat-menu-item>test</button> -->
         <span class="example-spacer"></span>
         <button class="offset-sm-2 col-sm-3 example-icon" (click)=" getCategory()" 
             mat-stroked-button>Add Expense</button>
         <!-- <button class="col-sm-3 ml-2 example-icon" color="warm" (click)="logout()" 
             mat-raised-button>Logout</button> -->
-            <button mat-button [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon></button>
+            <button mat-button [matMenuTriggerFor]="menu" class="img">     
+                 <app-profile-image class="imgchild"></app-profile-image>
+            </button>
             <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="userDetail()">Profile</button>
             <button (click)="resetpassword()" mat-menu-item>Reset password</button>
             <button (click)="logout()" mat-menu-item>Logout</button>
+            
             </mat-menu>
     </mat-toolbar-row>
     

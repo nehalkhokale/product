@@ -1,144 +1,165 @@
-<div class="row mt-4">
-  <div class="offset-sm-2 col-sm-4 mt-2">
+<div class="row mt-2 mb-2">
+  <div class="col-sm-5 mt-2">
     <h5>Save User</h5>
   </div>
-  <div class="offset-sm-2 col-sm-2 text-right">
+  <div class="offset-sm-2 col-sm-5 text-right">
     <button matTooltip="Go to user list" routerLink="/user/list-user" mat-mini-fab class="mat-mini-fab-white"
       type="button">
       <mat-icon class="pointer;">arrow_back</mat-icon>
     </button>
   </div>
 </div>
-<div class="row mt-4">
-  <div class="offset-sm-2 col-sm-8">
-    <mat-card>
-      <form [formGroup]="userForm" (submit)=" onSave()">
-
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-6">
-              <mat-form-field class="example-full-width">
-                <input matInput formControlName="firstName" placeholder="First name" required>
-                  <mat-error class="error-message" *ngIf="userForm.get('firstName').hasError ('required')
-                      && (userForm.get('firstName').dirty || 
-                      userForm.get('firstName').touched)">
-                    First name is required
-                  </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="col-sm-6">
-              <mat-form-field class="example-full-width">
-                <input matInput formControlName="lastName" placeholder="Last name" required>
-                <mat-error class="error-message" *ngIf="userForm.get('lastName').hasError
-                    && (userForm.get('lastName').dirty || userForm.get('lastName').touched)">
-                  Last name is required
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
+<mat-card>
+<div class="row ">
+    <div class=" col-sm-4 mt-5 text-center" *ngIf="profileValue">
+      <app-profile-image></app-profile-image>
+      <!-- <div class="parent" >
+        <div class="child text-uppercase" *ngIf="!profileUrl">
+          {{userInitials}}
         </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-12">
-              <mat-form-field class="example-full-width">
-                  <mat-error class="error-message"
-                    *ngIf="userForm.get('role').hasError('required') && (userForm.get('role').dirty || userForm.get('role').touched)">
-                   Role is required</mat-error>
-                <mat-select formControlName="role" placeholder="Role" required>
-                  <mat-option *ngFor="let role of list_role" [value]="role._id">
-                    {{role.name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- <div class="form-group">
-          <div class="row">
-            <div class="col-sm-12">
-              <mat-form-field class="example-full-width">
-                <input matInput formControlName="password" type="password" placeholder="Role">
-                <mat-hint class="text-warning">Note: Password must include  - at least 8 characters,
-                    Lowercase letter, Uppercase letter, Number, Special character</mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-        </div> -->
-
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-12">
-              <mat-form-field class="example-full-width">
-
-                <!-- <mat-error *ngFor="let validation of validation_messages.email"> -->
-                <mat-error class="error-message"
-                  *ngIf="userForm.get('email').hasError('required') && (userForm.get('email').dirty || userForm.get('email').touched)">
-                  required
-                </mat-error>
-                <mat-error class="error-message"
-                  *ngIf="userForm.get('email').hasError('pattern') && (userForm.get('email').dirty || userForm.get('email').touched)">
-                  pattern</mat-error>
-                <!-- </mat-error> -->
-                <input matInput formControlName="email" placeholder="e.g. some@domain.com" required>
-              </mat-form-field>
-              <!-- {{userForm.get('email').hasError ? 'Yes': 'No'}} -->
-
-            </div>
-          </div>
-        </div>
-        <!-- *ngFor="let item of mobileInputs" (keydown)="item.type.toLowerCase() == 'number' ? isNumberKey($event) : ''"-->
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-6"  >
-              <mat-form-field class="example-full-width">
-                  <mat-error class="error-message"
-                    *ngIf="userForm.get('mobile').hasError('required') && (userForm.get('mobile').dirty || userForm.get('mobile').touched)">
-                    Mobile number required</mat-error>
-                    <mat-error class="error-message"
-                    *ngIf="userForm.get('mobile').hasError('pattern') && (userForm.get('mobile').dirty || userForm.get('mobile').touched)">
-                    Mobile should be 10 digits </mat-error>
-                    
-                <input matInput formControlName="mobile" placeholder="Mobile number" type="number" required>
-                
-              </mat-form-field>
-            </div>
-            
-            <div class="col-sm-6">
-              <mat-form-field class="example-full-width">
-                  <mat-error class="error-message"
-                    *ngIf="userForm.get('gender').hasError('required') && (userForm.get('gender').dirty || userForm.get('gender').touched)">
-                   Gender required</mat-error>
-                <mat-select matInput formControlName="gender" placeholder="Gender" required>
-                  <mat-option value=" Female">
-                    Female
-                  </mat-option>
-                  <mat-option value=" Male">
-                    Male
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-        <br />
-
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-12">
-              <button type="button" mat-raised-button class="btn btn-block col-sm-2 mr-3"
-                (click)="ngOnInit()">RESET</button>
-              <button type="submit" mat-raised-button class="btn btn-block col-sm-2" color="primary"
-                [disabled]="(userForm.invalid || !userForm.dirty) || showLoading">
-                SAVE
-                <i class="fas fa-spinner ml-2" *ngIf="showLoading"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </form>
-    </mat-card>
-  </div>
+        <img class="img-fluid rounded" *ngIf="profileUrl" src={{profileUrl}} alt="ProfileImage" max-width="304" max-height="236px" >
+      </div>
+        <input name="ProfileImage" style="visibility: hidden;" type="file" (change)="onFileSelection($event)" #imageSelector>
+        <label (click)="imageSelector.click()">
+          Choose File
+        </label> -->
+    </div>
+    <div class="text-capitalize" [ngClass]="(profileValue == true) ?'col-sm-8':'col-sm-12'" >
+        
+          <!-- <div class="row mt-2"> -->
+            <!-- <div class="col-sm-12"> -->
+              
+                <form [formGroup]="userForm" (submit)=" onSave()">
+          
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput formControlName="firstName" placeholder="First name" required>
+                            <mat-error class="error-message" *ngIf="userForm.get('firstName').hasError ('required')
+                                && (userForm.get('firstName').dirty || 
+                                userForm.get('firstName').touched)">
+                              First name is required
+                            </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                          <input matInput formControlName="lastName" placeholder="Last name" required>
+                          <mat-error class="error-message" *ngIf="userForm.get('lastName').hasError
+                              && (userForm.get('lastName').dirty || userForm.get('lastName').touched)">
+                            Last name is required
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+                            <mat-error class="error-message"
+                              *ngIf="userForm.get('role').hasError('required') && (userForm.get('role').dirty || userForm.get('role').touched)">
+                             Role is required</mat-error>
+                          <mat-select formControlName="role" placeholder="Role" required>
+                            <mat-option *ngFor="let role of list_role" [value]="role._id">
+                              {{role.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+          
+          
+                  <!-- <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+                          <input matInput formControlName="password" type="password" placeholder="Role">
+                          <mat-hint class="text-warning">Note: Password must include  - at least 8 characters,
+                              Lowercase letter, Uppercase letter, Number, Special character</mat-hint>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div> -->
+          
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <mat-form-field class="example-full-width">
+          
+                          <!-- <mat-error *ngFor="let validation of validation_messages.email"> -->
+                          <mat-error class="error-message"
+                            *ngIf="userForm.get('email').hasError('required') && (userForm.get('email').dirty || userForm.get('email').touched)">
+                            required
+                          </mat-error>
+                          <mat-error class="error-message"
+                            *ngIf="userForm.get('email').hasError('pattern') && (userForm.get('email').dirty || userForm.get('email').touched)">
+                            pattern</mat-error>
+                          <!-- </mat-error> -->
+                          <input matInput formControlName="email" placeholder="e.g. some@domain.com" required>
+                        </mat-form-field>
+                        <!-- {{userForm.get('email').hasError ? 'Yes': 'No'}} -->
+          
+                      </div>
+                    </div>
+                  </div>
+                  <!-- *ngFor="let item of mobileInputs" (keydown)="item.type.toLowerCase() == 'number' ? isNumberKey($event) : ''"-->
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-6"  >
+                        <mat-form-field class="example-full-width">
+                            <mat-error class="error-message"
+                              *ngIf="userForm.get('mobile').hasError('required') && (userForm.get('mobile').dirty || userForm.get('mobile').touched)">
+                              Mobile number required</mat-error>
+                              <mat-error class="error-message"
+                              *ngIf="userForm.get('mobile').hasError('pattern') && (userForm.get('mobile').dirty || userForm.get('mobile').touched)">
+                              Mobile should be 10 digits </mat-error>
+                              
+                          <input matInput formControlName="mobile" placeholder="Mobile number" type="number" required>
+                          
+                        </mat-form-field>
+                      </div>
+                      
+                      <div class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-error class="error-message"
+                              *ngIf="userForm.get('gender').hasError('required') && (userForm.get('gender').dirty || userForm.get('gender').touched)">
+                             Gender required</mat-error>
+                          <mat-select matInput formControlName="gender" placeholder="Gender" required>
+                            <mat-option value=" Female">
+                              Female
+                            </mat-option>
+                            <mat-option value=" Male">
+                              Male
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+          
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <button type="button" mat-raised-button class="btn btn-block col-sm-2 mr-3"
+                          (click)="ngOnInit()">RESET</button>
+                        <button type="submit" mat-raised-button class="btn btn-block col-sm-2" color="primary"
+                          [disabled]="((userForm.invalid || !userForm.dirty) && !profileEvent$) || showLoading ">
+                          SAVE
+                          <i class="fas fa-spinner ml-2" *ngIf="showLoading"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+          
+                </form>
+              
+            <!-- </div> -->
+          <!-- </div> -->
+    </div>
 </div>
+</mat-card>
+

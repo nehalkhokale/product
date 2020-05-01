@@ -8,7 +8,6 @@
         <br>
         <i class="fas fa-spinner ml-2"></i>
         <br> -->
-
         <mat-card>
             <form [formGroup]="loginForm" (submit)=" onLogin()">
                 <div class="col-sm-12">
@@ -19,8 +18,8 @@
                 </div>
                 <div class="col-sm-12">
                     <mat-form-field appearance="outline">
-                        <mat-label>Password</mat-label>
-                        <input type="password" matInput formControlName="password" required>
+                        <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password" required>
+                        <mat-icon matSuffix (click)="unhide()">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-12">
@@ -29,10 +28,8 @@
                         <mat-icon class="icn-spinner ml-2" *ngIf="showLoading"> rotate_right </mat-icon>
                     </button>
                 </div>
-                <div class=" offset-sm-7 col-sm-5">
-                    <a href="">Forgot password ?</a>
-                    OR
-                    <a href="resetpassword">Change password ? </a>
+                <div class="col-sm-12" >
+                    <a  class="secondary-color"href="">Forgot password ?</a>
                 </div>
             </form>
         </mat-card>

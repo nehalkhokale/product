@@ -60,4 +60,29 @@
             </div>
     </div>
 </div>
-  
+<div>
+    <mat-card>
+        <label>Total amount spent :</label>
+        <label>{{userObj?.totalSpan}}</label><br>
+
+        <label>Budget {{userObj?._userBudgetType}}ly allocated is: </label>
+        <label>{{userObj?._userBudgetValue}}</label><br>
+
+        <!-- <div class="progress">
+            <div class="progress-bar progress-bar-info " style="width:60%">
+                {{userObj.percentile}}
+            </div>
+        </div>
+        <div class="progress">
+            {{userObj.percentile}}%<br>
+            <div class="progress-bar" role="progressbar" style="width: 25%;height:25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div> -->
+    <label>{{userObj?.percentile}}%</label><br>
+    <mat-progress-bar aria-label="percentile" class="example-margin"
+          [color]="color"
+          [mode]="mode"
+          [value]="percentile"
+          [indicator]="percentile"
+          [bufferValue]="percentile"></mat-progress-bar>
+    </mat-card>
+</div>

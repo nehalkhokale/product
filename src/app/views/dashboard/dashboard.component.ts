@@ -98,11 +98,20 @@ export class DashboardComponent implements OnInit {
           + this.today.getDate() + ' - ' 
           + this.today.toLocaleString('default', { month: 'long' }) + '-' + this.today.getFullYear().toString();
       this.expenseChart()
+      this.getBudgetDetails()
     } catch (e) {
       
     }
   }
+  userObj: any
+  percentile:Number
+  getBudgetDetails(){
+    this.httpService.get('totalamountspent').subscribe((res: any) => {
+      this.userObj = res.data
+      this.percentile =this.userObj.percentile
 
+    })
+  }
   displayChart: boolean = false;
   expenseChart() {
     try{
@@ -223,7 +232,7 @@ export class DashboardComponent implements OnInit {
             //categoryName:string,Date:Date
             events:{
               dataPointSelection: (event,chartContext,config) => {
-                let catergoryName=config.w.config[config.dataPointIndex]
+                let catergoryName=config.w.config.labels[config.dataPointIndex]
                 this.editExpense(catergoryName,this.requestBody)
               }
             },
